@@ -13,6 +13,7 @@ interface Props {
 const { description } = Astro.props
 const pageTitle = 'Rigalis'
 const pageDesc = description || SITE.description
+const canonical = new URL(Astro.url.pathname, SITE.href).toString()
 ---
 
 <!doctype html>
@@ -23,6 +24,7 @@ const pageDesc = description || SITE.description
     <meta name="description" content={pageDesc} />
     <meta name="author" content={SITE.author} />
     <title>{pageTitle}</title>
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
