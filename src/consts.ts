@@ -1,7 +1,7 @@
 export const SITE = {
   title: 'rigalis.dev',
   description: 'Systems and security researcher — CTF player at THEM?!, Head of R&D at DJS ARYA. Interested in compilers, distributed systems, and low-level design.',
-  href: 'https://pcubedp.github.io',
+  href: 'https://rigalis.me',
   author: 'Parth Patel',
   handle: 'rigalis',
   locale: 'en-US',

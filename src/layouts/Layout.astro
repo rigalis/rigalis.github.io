@@ -10,8 +10,8 @@ interface Props {
   description?: string
 }
 
-const { title, description } = Astro.props
-const pageTitle = title ? `${title} — ${SITE.title}` : SITE.title
+const { description } = Astro.props
+const pageTitle = 'Rigalis'
 const pageDesc = description || SITE.description
 ---
 
