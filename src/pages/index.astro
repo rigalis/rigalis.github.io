@@ -1,0 +1,116 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import GitGraph from '@/components/GitGraph.tsx'
+import TechStack from '@/components/TechStack.tsx'
+import SpotifyWidgets from '@/components/SpotifyWidgets.tsx'
+import MapWidget from '@/components/MapWidget.tsx'
+import HeroCanvas from '@/components/HeroCanvas.tsx'
+import { blogPosts } from '@/data/blog'
+ 
+const latestPost = blogPosts[0]
+---
+ 
+<Layout title="Home">
+  <div class="space-y-[10px] animate-fade-in">
+
+    <!-- Top — gif top aligned with sidebar logo top (py-6) -->
+    <div class="relative w-full mt-0 min-h-[360px] md:min-h-[410px] overflow-hidden p-4 md:p-5 flex flex-col justify-end gap-[10px]" style="border: none; border-radius: 12px 12px 0 0; overflow: hidden;">
+      <img src="/images/pixellay.gif" alt="Pixel lay animation" class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none" style="opacity: 1; object-position: center 62%;" />
+      <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to bottom, transparent 38%, color-mix(in srgb, var(--background) 42%, transparent) 70%, var(--background) 94%);"></div>
+      <div class="absolute inset-0 pointer-events-none opacity-20 hidden">
+        <HeroCanvas client:load />
+      </div>
+
+      <!-- News — top right corner, minimalist pop -->
+      <div class="absolute top-4 right-4 md:top-5 md:right-5 z-20 w-[170px] md:w-[220px]">
+        <div class="bento p-3 flex flex-col relative overflow-hidden" style="background: rgba(16, 28, 24, 0.66); backdrop-filter: blur(10px) saturate(1.15); -webkit-backdrop-filter: blur(10px) saturate(1.15); isolation: isolate; transform: translateZ(0); box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,245,221,0.08);">
+          <span class="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full z-20" style="background: var(--accent); border: 2px solid var(--background); box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 60%, transparent);" aria-hidden="true"></span>
+          <div class="relative z-10 space-y-2 font-sans text-[12.5px] leading-relaxed" style="font-family: var(--font-sans);">
+            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span>Finalists @z0d1ak CTF !</span><span style="color: var(--muted-foreground);" class="font-normal">Aug</span></div>
+            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span>Top 10 @ENOWARS 10!</span><span style="color: var(--muted-foreground);" class="font-normal">Jul</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intro bento — enscribe-inspired, no ABOUT heading -->
+      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-[10px]">
+        <div class="bento lg:col-span-8 p-4 flex flex-col gap-2" style="background: rgba(16, 28, 24, 0.66); backdrop-filter: blur(10px) saturate(1.15); -webkit-backdrop-filter: blur(10px) saturate(1.15); isolation: isolate; transform: translateZ(0);">
+          <div class="font-sans text-[14px] leading-relaxed space-y-1" style="color: var(--muted-foreground);">
+            <p><strong style="color: var(--foreground);">Hi, I&apos;m <span style="text-decoration: underline; text-underline-offset: 3px;">Parth</span></strong> <span style="font-style: italic; font-weight: 400; color: var(--muted-foreground);">aka </span><span class="rigalis-gradient" style="font-style: italic; font-weight: 600; background: linear-gradient(90deg, #FFF5DD 0%, #e8e0c8 25%, #c9c2b3 50%, #f5ecd8 75%, #FFF5DD 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: rigalis-gradient 2.8s linear infinite;">rigalis</span><span style="font-style: italic; font-weight: 400; color: var(--muted-foreground);">,</span> I&apos;m into low-level systems, compilers, hardware. I enjoy playing CTFs (@THEM?!) and I&apos;m involved in security research.</p>
+            <p>Outside tech, I design stuff, listen to music especially DnB, and game.</p>
+            <p>Read more about me <a href="/about" class="underline underline-offset-2 hover:opacity-80 transition-opacity" style="color: var(--foreground); text-decoration: underline;">here</a> :D</p>
+          </div>
+          <style>
+            @keyframes rigalis-gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+          </style>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Row 2: GitHub Graph + Latest Blog — GitHub a bit wider than Blog -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-[10px] items-stretch">
+      <div class="lg:col-span-7 flex flex-col">
+        {/* Front-end only — add profileUrl="https://github.com/..." to link */}
+        <GitGraph client:load />
+      </div>
+      <div class="bento lg:col-span-5 px-5 pt-5 pb-3 flex flex-col group overflow-hidden relative" style="min-height: 242px;">
+        <div class="w-full aspect-[200/96] rounded-[10px] overflow-hidden relative shrink-0" style="border: 1px solid var(--card-border); background: var(--card-inner);">
+          <img src="/images/pixel-clouds-blog.jpg" alt="Latest post" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" style="object-position: center 28%;" />
+          <div class="absolute top-0 left-0 px-2.5 py-1 rounded-tl-[10px] rounded-br-[8px] flex items-center gap-1.5" style="background: var(--foreground); color: var(--background); font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; line-height: 1;"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true" class="shrink-0" style="display: block; transform: translateY(0.2px);"><path d="M12 2l2.4 7.2H22l-6.2 4.5 2.4 7.3L12 16.9l-6.2 4.1 2.4-7.3L2 9.2h7.6z"/></svg><span style="line-height: 1; display: inline-block; transform: translateY(0.8px);">Latest Blog</span></div>
+        </div>
+        <div class="space-y-1 mt-4 pr-10">
+          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">{latestPost.date}</div>
+          <h4 class="font-medium text-[13px] leading-snug" style="color: var(--foreground); font-family: var(--font-title);">{latestPost.title}</h4>
+        </div>
+        {/* Functional — opens that post on /blog via hash */}
+        <a href="/blog#heap-overflow-elf-hunting" aria-label="Read post" class="absolute bottom-3 right-3 w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors z-10" style="background: color-mix(in srgb, var(--foreground) 82%, var(--background)); border: 1px solid color-mix(in srgb, var(--foreground) 82%, var(--background)); color: var(--background);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
+      </div>
+    </div>
+ 
+    <!-- Bottom — Map taller than squares + cavity -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-[10px] items-start">
+      <!-- Map — taller than squares + cavity inside (clean) -->
+      <div class="lg:col-span-4 lg:row-span-2 flex flex-col gap-[10px]">
+        <div class="h-[357px] lg:h-[437px]">
+          <MapWidget client:load />
+        </div>
+        <div class="grid grid-cols-2 gap-[10px]" style="height: 139px;">
+          <a href="https://github.com/pcubedp" target="_blank" rel="noreferrer" aria-label="GitHub" class="bento bento-social p-3 flex items-center justify-center transition-all duration-200 group">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="currentColor" class="transition-transform duration-200 group-hover:scale-[1.12]" style="color: var(--foreground);" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.52 11.52 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+          <a href="https://x.com/" target="_blank" rel="noreferrer" aria-label="X" class="bento bento-social p-3 flex items-center justify-center transition-all duration-200 group">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="currentColor" class="transition-transform duration-200 group-hover:scale-[1.12]" style="color: var(--foreground);" aria-hidden="true"><path d="M18.307 0H21.59l-7.03 8.04L23 24h-6.56l-5.14-6.72L5.42 24H2.13l7.52-8.6L1.5 0h6.72l4.64 6.14L18.307 0Zm-1.15 21.57h1.82L6.01 2.3H4.06l13.097 19.27Z"/></svg>
+          </a>
+        </div>
+      </div>
+      <!-- Row 3 right — blank (was Connect) -->
+      <div class="lg:col-span-4 flex flex-col">
+        <div class="bento p-5 w-full flex flex-col items-center justify-center" style="height: 288px;">
+          <span class="font-mono text-xs" style="color: var(--muted-foreground);">—</span>
+        </div>
+      </div>
+      <div class="lg:col-span-4 flex flex-col">
+        <div class="bento p-5 w-full flex flex-col items-center justify-center" style="height: 288px;">
+          <span class="font-mono text-xs" style="color: var(--muted-foreground);">—</span>
+        </div>
+      </div>
+      <!-- Row 4 right — placeholder + Spotify -->
+      <div class="lg:col-span-4 flex flex-col">
+        <div class="bento p-5 flex flex-col w-full items-center justify-center" style="height: 288px;">
+          <span class="font-mono text-xs" style="color: var(--muted-foreground);">—</span>
+        </div>
+      </div>
+      <div class="lg:col-span-4 flex flex-col">
+        <div class="w-full flex flex-col overflow-hidden" style="height: 288px;">
+          <SpotifyWidgets client:load spotifyUrl="https://open.spotify.com/album/7DQCQeGbnpjr3tF7p3f2jA" />
+        </div>
+      </div>
+    </div>
+
+    <!-- New bottom row — TechStack -->
+    <div class="grid grid-cols-1 gap-[10px] mt-0">
+      <TechStack client:load />
+    </div>
+ 
+  </div>
+</Layout>

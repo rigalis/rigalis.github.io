@@ -1,0 +1,197 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+  --font-title: 'DM Sans', 'Geist', ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
+}
+
+/* ── AZUKI TCG — hero-matched border (subtle) ── */
+:root {
+  --background: #000000;
+  --bg-hard: #11110a;
+  --foreground: #FFF5DD;
+  --border: #2f3129;
+  --muted: #000000;
+  --muted-foreground: #c9c2b3;
+  --accent: #DD323F;
+  --accent-strong: #C12733;
+  --accent-green: #DD323F;
+  --accent-blue: #DD323F;
+  --accent-red: #DD323F;
+  --accent-aqua: #DD323F;
+  --accent-orange: #DD323F;
+  --accent-purple: #DD323F;
+  --accent-yellow: #DD323F;
+  --accent-gray: #9e9991;
+
+  --card: #0a0a09;
+  --card-border: #2f3129;
+  --card-inner: #141413;
+  --nav-bg: #000000;
+  --input-bg: #141413;
+}
+
+:root[data-theme='light'] {
+  --background: #faf4ed;
+  --bg-hard: #ede7df;
+  --foreground: #332b21;
+  --border: #d4cdc5;
+  --muted: #ede7df;
+  --muted-foreground: #686056;
+  --accent: #feead0;
+  --accent-strong: #feead0;
+  --accent-green: #feead0;
+  --accent-blue: #feead0;
+  --accent-red: #feead0;
+  --accent-aqua: #feead0;
+  --accent-orange: #feead0;
+  --accent-purple: #feead0;
+  --accent-yellow: #feead0;
+  --accent-gray: #686056;
+
+  --card: #ede7df;
+  --card-border: #d4cdc5;
+  --card-inner: #e0dad2;
+  --nav-bg: #faf4ed;
+  --input-bg: #e0dad2;
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+}
+* { box-sizing: border-box; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--border); }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+::selection { background: var(--foreground); color: var(--background); }
+
+/* ── Bento — subtle 1px border ── */
+.bento {
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--border) 45%, transparent);
+  border-radius: 10px;
+  transition: border-color 0.15s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.bento:hover { border-color: color-mix(in srgb, var(--border) 55%, transparent); }
+
+/* social split — invert on hover + scale logo */
+.bento-social:hover {
+  background: var(--foreground) !important;
+  border-color: transparent !important;
+}
+.bento-social:hover svg { color: var(--background) !important; }
+
+/* pixel ripple — keep canvas behind, don't override absolute children */
+.bento { position: relative; }
+.bento canvas { position: absolute; z-index: 0; pointer-events: none; }
+
+.bento-doodle::after { display: none; }
+.bento-card-inner {
+  background: var(--card-inner);
+  border: 1px solid var(--border);
+  border-radius: 0;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in 0.35s ease both; }
+
+.font-title { font-family: var(--font-title); }
+h1, h2, h3 {
+  font-family: var(--font-title);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-weight: 600;
+}
+h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -0.03em; }
+h2 { font-size: clamp(1.15rem, 2.5vw, 1.35rem); }
+h3 { font-size: clamp(0.95rem, 1.8vw, 1.05rem); }
+
+hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+.font-ascii { font-family: var(--font-mono); letter-spacing: 0.08em; font-size: 10px; color: var(--muted-foreground); }
+
+@keyframes ping-slow {
+  75%, 100% { transform: scale(1.8); opacity: 0; }
+}
+.animate-ping-slow { animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+@keyframes nudge {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(5px); }
+  50% { transform: translateX(10px); }
+  75% { transform: translateX(15px); }
+  100% { transform: translateX(0); }
+}
+.animate-nudge { animation: nudge 1.8s steps(4, end) infinite; }
+
+@keyframes arrow-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-arrow-marquee { animation: arrow-marquee 14s linear infinite; }
+
+/* Prism — “Rigalis Warm” — matches --foreground #FFF5DD / --muted #c9c2b3 / --accent #DD323F */
+.prism-code { background: var(--card-inner) !important; text-shadow: none !important; color: var(--foreground) !important; }
+.prism-code .token.comment, .prism-code .token.prolog, .prism-code .token.doctype, .prism-code .token.cdata {
+  color: #7a756e; font-style: italic; /* muted warm gray — 3:1 on #141413 */
+}
+.prism-code .token.punctuation { color: #9e9991; } /* --accent-gray */
+.prism-code .token.property, .prism-code .token.tag, .prism-code .token.boolean, .prism-code .token.number, .prism-code .token.constant, .prism-code .token.symbol {
+  color: #c9c2b3; /* --muted-foreground — numbers stand out but stay warm */
+}
+.prism-code .token.selector, .prism-code .token.attr-name, .prism-code .token.string, .prism-code .token.char, .prism-code .token.builtin {
+  color: #d4c5a2; /* warm parchment — strings */
+}
+.prism-code .token.operator, .prism-code .token.entity, .prism-code .token.url, .prism-code .token.variable {
+  color: #c9c2b3;
+}
+.prism-code .token.atrule, .prism-code .token.attr-value, .prism-code .token.keyword {
+  color: #DD323F; /* --accent red — keywords pop, matches site */
+}
+.prism-code .token.function, .prism-code .token.class-name {
+  color: #FFF5DD; /* --foreground cream — functions bold */
+  font-weight: 500;
+}
+.prism-code .token.regex, .prism-code .token.important { color: #e07a7a; }
+.prism-code .token.inserted { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.prism-code .token.deleted { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+
+/* Light theme — same warm family on #e0dad2 card */
+:root[data-theme='light'] .prism-code { color: #332b21 !important; }
+:root[data-theme='light'] .prism-code .token.comment { color: #9a9590; font-style: italic; }
+:root[data-theme='light'] .prism-code .token.punctuation { color: #686056; }
+:root[data-theme='light'] .prism-code .token.keyword, :root[data-theme='light'] .prism-code .token.atrule { color: #DD323F; }
+:root[data-theme='light'] .prism-code .token.string, :root[data-theme='light'] .prism-code .token.attr-value { color: #7d6a4a; } /* warm brown */
+:root[data-theme='light'] .prism-code .token.function, :root[data-theme='light'] .prism-code .token.class-name { color: #332b21; font-weight: 600; }
+:root[data-theme='light'] .prism-code .token.number, :root[data-theme='light'] .prism-code .token.boolean { color: #5a4d3a; }
+:root[data-theme='light'] .prism-code .token.operator { color: #686056; }
+
+/* Variants you can swap by changing the block above:
+   - "Warm Minimal" (current): 3 colors only (comment gray / keyword red / string parchment)
+   - "AZUKI Ink": keyword #DD323F, string #8ea8a0 (muted teal), function #FFF5DD
+   - "Paper": all tokens #332b21 with only keyword red + comment gray for max minimal
+*/

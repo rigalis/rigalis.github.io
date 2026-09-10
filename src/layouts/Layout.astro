@@ -1,0 +1,70 @@
+---
+import '@/styles/global.css'
+import Header from '@/components/Header.astro'
+import Sidebar from '@/components/Sidebar.astro'
+import Footer from '@/components/Footer.astro'
+import { SITE } from '@/consts'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const { title, description } = Astro.props
+const pageTitle = title ? `${title} — ${SITE.title}` : SITE.title
+const pageDesc = description || SITE.description
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={pageDesc} />
+    <meta name="author" content={SITE.author} />
+    <title>{pageTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.cdnfonts.com/css/akira-expanded" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var theme = saved || 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
+          if (!saved) try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+  </head>
+  <body class="flex min-h-screen flex-col" style="background: var(--background); color: var(--foreground);">
+    <div class="w-full max-w-[1180px] mx-auto flex flex-col lg:flex-row gap-0 lg:gap-4 lg:p-3">
+      <div class="hidden lg:flex shrink-0"><Sidebar /></div>
+      <div class="flex-1 flex flex-col min-h-screen min-w-0">
+        <div class="lg:hidden"><Header /></div>
+        <main class="flex-1 w-full max-w-5xl mx-auto px-4 md:px-8 py-6 md:py-10" id="main-content">
+          <slot />
+        </main>
+        <Footer />
+      </div>
+    </div>
+    <script is:inline>
+      window.__toggleTheme = function () {
+        var cur = document.documentElement.getAttribute('data-theme');
+        var next = cur === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        window.dispatchEvent(new CustomEvent('themechange', { detail: next }));
+      };
+      window.addEventListener('DOMContentLoaded', function () {
+        var btn = document.getElementById('theme-toggle');
+        if (btn) btn.addEventListener('click', window.__toggleTheme);
+      });
+    </script>
+  </body>
+</html>
