@@ -15,5 +15,5 @@ export const NAV_LINKS = [
 ]
 
 export const SOCIAL_LINKS = [
-  { href: 'https://github.com/pcubedp', label: 'GitHub' },
+  { href: 'https://github.com/rigalis', label: 'GitHub' },
 ]

@@ -57,7 +57,7 @@ export default function TechStack() {
                   >
                     <div className="flex items-center justify-center overflow-hidden rounded-md shrink-0" style={{ width: '1.5rem', height: '1.5rem', background: 'var(--background)' }}>
                       <img
-                        alt=""
+                        alt={`${it.name} logo`}
                         loading="lazy"
                         width={24}
                         height={24}

@@ -50,7 +50,7 @@ export default function BlogTab() {
         </header>
         <div className="w-full rounded-[12px] overflow-hidden relative mb-8" style={{ border: '1px solid var(--card-border)', background: 'var(--card-inner)' }}>
           <div className="w-full aspect-[200/96] overflow-hidden relative">
-            <img src="/images/pixel-clouds-blog.jpg" alt="" className="w-full h-full object-cover" style={{ objectPosition: 'center 28%', display: 'block' }} />
+            <img src="/images/pixel-clouds-blog.jpg" alt="Pixel clouds artwork for the writeup" className="w-full h-full object-cover" style={{ objectPosition: 'center 28%', display: 'block' }} />
           </div>
         </div>
         <div className="prose max-w-none text-[15px] leading-7 space-y-4" style={{ color: 'var(--foreground)', fontFamily: 'var(--font-sans)' }}>
@@ -100,7 +100,7 @@ export default function BlogTab() {
                 <div className="text-[11px] mt-2" style={{ color: 'var(--muted-foreground)', fontFamily: 'var(--font-mono)' }}>Read →</div>
               </div>
               <div className="hidden sm:block w-[200px] h-[96px] shrink-0 rounded-[10px] overflow-hidden self-start" style={{ border: '1px solid var(--card-border)', background: 'var(--card-inner)' }}>
-                <img src="/images/pixel-clouds-blog.jpg" alt="" className="w-full h-full object-cover" style={{ objectPosition: 'center 28%' }} />
+                <img src="/images/pixel-clouds-blog.jpg" alt="Pixel clouds artwork for the writeup" className="w-full h-full object-cover" style={{ objectPosition: 'center 28%' }} />
               </div>
             </article>
           ))
