@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { projects } from "@/data/work";
+
+const projects: any[] = [];
 
 const COVERS = [
   "https://picsum.photos/seed/rigalis-ghidra/640/480",
@@ -21,7 +22,7 @@ const BLURBS: Record<string, string> = {
 
 export default function ProjectFlex() {
   const [active, setActive] = useState(0);
-  const items = projects.slice(0, 6);
+  const items = projects.length ? projects.slice(0, 6) : Array.from({ length: 4 }, (_, i) => ({ id: `blank-${i}`, title: '', description: '', category: '', githubUrl: '' } as any));
 
   return (
     <div className="bento p-3 w-full h-full flex flex-col">
@@ -71,28 +72,32 @@ export default function ProjectFlex() {
                 background: "var(--card-inner)",
               }}
             >
-              <img
-                src={COVERS[i % COVERS.length]}
-                alt=""
-                aria-hidden
-                draggable={false}
-                className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
-                style={{
-                  objectPosition: "center 30%",
-                  opacity: isActive ? 1 : 0,
-                  transform: isActive ? "scale(1)" : "scale(1.06)",
-                  transition: "opacity 0.45s ease 0.1s, transform 0.6s ease",
-                  filter: "url(#px-soft) saturate(0.85)",
-                }}
-              />
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: "linear-gradient(to top, rgba(0,0,0,0.62) 0%, transparent 55%)",
-                  opacity: isActive ? 1 : 0,
-                  transition: "opacity 0.35s ease 0.1s",
-                }}
-              />
+              {p.title ? (
+                <>
+                  <img
+                    src={COVERS[i % COVERS.length]}
+                    alt=""
+                    aria-hidden
+                    draggable={false}
+                    className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
+                    style={{
+                      objectPosition: "center 30%",
+                      opacity: isActive ? 1 : 0,
+                      transform: isActive ? "scale(1)" : "scale(1.06)",
+                      transition: "opacity 0.45s ease 0.1s, transform 0.6s ease",
+                      filter: "url(#px-soft) saturate(0.85)",
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background: "linear-gradient(to top, rgba(0,0,0,0.62) 0%, transparent 55%)",
+                      opacity: isActive ? 1 : 0,
+                      transition: "opacity 0.35s ease 0.1s",
+                    }}
+                  />
+                </>
+              ) : null}
               <span
                 aria-hidden
                 className="absolute inset-0 flex items-center justify-center font-mono select-none pointer-events-none"
