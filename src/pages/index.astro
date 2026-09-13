@@ -3,6 +3,7 @@ import Layout from '@/layouts/Layout.astro'
 import GitGraph from '@/components/GitGraph.tsx'
 import TechStack from '@/components/TechStack.tsx'
 import SpotifyWidgets from '@/components/SpotifyWidgets.tsx'
+import ProjectFlex from '@/components/ProjectFlex.tsx'
 import MapWidget from '@/components/MapWidget.tsx'
 import HeroCanvas from '@/components/HeroCanvas.tsx'
 import { blogPosts } from '@/data/blog'
@@ -84,15 +85,10 @@ const latestPost = blogPosts[0]
           </a>
         </div>
       </div>
-      <!-- Row 3 right — blank (was Connect) -->
-      <div class="lg:col-span-4 flex flex-col">
-        <div class="bento p-5 w-full flex flex-col items-center justify-center" style="height: 288px;">
-          <span class="font-mono text-xs" style="color: var(--muted-foreground);">—</span>
-        </div>
-      </div>
-      <div class="lg:col-span-4 flex flex-col">
-        <div class="bento p-5 w-full flex flex-col items-center justify-center" style="height: 288px;">
-          <span class="font-mono text-xs" style="color: var(--muted-foreground);">—</span>
+      <!-- Row 3 right — merged project flex accordion -->
+      <div class="lg:col-span-8 flex flex-col">
+        <div class="w-full flex flex-col overflow-hidden" style="height: 288px;">
+          <ProjectFlex client:visible />
         </div>
       </div>
       <!-- Row 4 right — placeholder + Spotify -->
