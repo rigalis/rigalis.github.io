@@ -3,7 +3,7 @@ import { NAV_LINKS } from '@/consts'
 const pathname = Astro.url.pathname
 ---
 
-<aside class="hidden lg:flex flex-col w-[180px] shrink-0 sticky top-0 h-screen py-6 pl-1 pr-2" style="background: transparent;">
+<aside id="app-sidebar" class="hidden lg:flex flex-col w-[180px] shrink-0 sticky top-0 h-screen py-6 pl-1 pr-2 overflow-hidden" style="background: transparent;">
   <!-- Logo — Parth Patel / rigalis -->
   <a href="/" class="flex flex-col gap-0.5 mb-8 group">
     <span class="leading-none tracking-tight" style="font-family: var(--font-title); font-size: 16px; font-weight: 700; color: var(--foreground); letter-spacing: -0.02em;">Parth Patel</span>
@@ -26,8 +26,31 @@ const pathname = Astro.url.pathname
     })}
   </nav>
 
+  <!-- Deep Dive TOC — uncompressed -->
+  <div id="deepdive-sidebar-block" class="hidden flex-col gap-0 mt-6 pt-6 flex-1 min-h-0 pr-1 overflow-y-auto" style="border-top: 1px solid var(--card-border);">
+    <div class="flex items-start min-h-0">
+      <!-- TOC — always expanded -->
+      <div class="flex-1 min-w-0">
+        <div class="text-[10px] tracking-[0.12em] font-semibold mb-2 shrink-0" style="color: var(--muted-foreground); font-family: var(--font-mono);">ON THIS PAGE</div>
+        <nav id="sidebar-toc-nav" class="space-y-0.5 border-l pl-3 shrink-0" style="border-color: color-mix(in srgb, var(--card-border) 70%, transparent);">
+          <a href="#introduction" data-toc-id="introduction" class="block py-1 text-[12px] leading-4 transition-colors border-l -ml-[13px] pl-3 font-medium" style="padding-left: 12px; color: var(--foreground); border-color: var(--foreground); border-left-width: 1.5px; font-family: var(--font-sans);">Introduction</a>
+          <a href="#anatomy-heap-chunk" data-toc-id="anatomy-heap-chunk" class="block py-1 text-[12px] leading-4 transition-colors border-l -ml-[13px] pl-3" style="padding-left: 12px; color: var(--muted-foreground); border-color: transparent; border-left-width: 1.5px; font-family: var(--font-sans);">Anatomy of a Heap Chunk</a>
+          <a href="#chunk-flags" data-toc-id="chunk-flags" class="block py-1 text-[11px] leading-4 transition-colors border-l -ml-[13px] pl-3" style="padding-left: 18px; color: var(--muted-foreground); border-color: transparent; border-left-width: 1.5px; font-family: var(--font-sans);">Chunk flags — AMP bits</a>
+          <a href="#double-free" data-toc-id="double-free" class="block py-1 text-[12px] leading-4 transition-colors border-l -ml-[13px] pl-3" style="padding-left: 12px; color: var(--muted-foreground); border-color: transparent; border-left-width: 1.5px; font-family: var(--font-sans);">The Double-Free Vulnerability</a>
+          <a href="#example-vulnerability" data-toc-id="example-vulnerability" class="block py-1 text-[11px] leading-4 transition-colors border-l -ml-[13px] pl-3" style="padding-left: 18px; color: var(--muted-foreground); border-color: transparent; border-left-width: 1.5px; font-family: var(--font-sans);">Example: vulnerable C</a>
+          <a href="#tcache-hardening" data-toc-id="tcache-hardening" class="block py-1 text-[12px] leading-4 transition-colors border-l -ml-[13px] pl-3" style="padding-left: 12px; color: var(--muted-foreground); border-color: transparent; border-left-width: 1.5px; font-family: var(--font-sans);">tcache &amp; Modern Hardening</a>
+          <a href="#recall" data-toc-id="recall" class="block py-1 text-[11px] leading-4 transition-colors border-l -ml-[13px] pl-3" style="padding-left: 18px; color: var(--muted-foreground); border-color: transparent; border-left-width: 1.5px; font-family: var(--font-sans);">Recall</a>
+          <a href="#exploitation-lab" data-toc-id="exploitation-lab" class="block py-1 text-[12px] leading-4 transition-colors border-l -ml-[13px] pl-3" style="padding-left: 12px; color: var(--muted-foreground); border-color: transparent; border-left-width: 1.5px; font-family: var(--font-sans);">Exploitation Lab</a>
+          <a href="#visualising-corruption" data-toc-id="visualising-corruption" class="block py-1 text-[11px] leading-4 transition-colors border-l -ml-[13px] pl-3" style="padding-left: 18px; color: var(--muted-foreground); border-color: transparent; border-left-width: 1.5px; font-family: var(--font-sans);">Visualising Corruption</a>
+          <a href="#mitigations-fixes" data-toc-id="mitigations-fixes" class="block py-1 text-[12px] leading-4 transition-colors border-l -ml-[13px] pl-3" style="padding-left: 12px; color: var(--muted-foreground); border-color: transparent; border-left-width: 1.5px; font-family: var(--font-sans);">Mitigations &amp; Fixes</a>
+          <a href="#footnotes" data-toc-id="footnotes" class="block py-1 text-[12px] leading-4 transition-colors border-l -ml-[13px] pl-3" style="padding-left: 12px; color: var(--muted-foreground); border-color: transparent; border-left-width: 1.5px; font-family: var(--font-sans);">Footnotes</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
   <!-- Bottom actions — search / theme / justification -->
-  <div class="mt-auto flex flex-col gap-2 pt-6" style="border-top: 1px solid var(--card-border);">
+  <div class="mt-auto flex flex-col gap-2 pt-6 shrink-0" style="border-top: 1px solid var(--card-border);">
     <button id="sidebar-search" class="flex items-center gap-2 w-full px-3 py-2 rounded-[6px] text-[13px] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--card-inner)] border border-[var(--card-border)] transition-colors" style="font-family: var(--font-sans);">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       <span>Search</span>
@@ -93,6 +116,21 @@ const pathname = Astro.url.pathname
         const filtered = pages.filter(p => p.label.toLowerCase().includes(q));
         results.innerHTML = filtered.length ? filtered.map(p => `<a href="${p.href}" class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-[var(--card-inner)] text-[var(--foreground)]"><span>${p.label}</span><span class="text-[11px] font-mono text-[var(--muted-foreground)]">${p.href}</span></a>`).join('') : '<div class="px-3 py-6 text-center">No results</div>';
         if (!q) results.innerHTML = '<div class="px-3 py-2">Type to search blog, work, pages…</div>';
+      });
+    }
+    // Deep dive TOC smooth scroll
+    const tocNav = document.getElementById('sidebar-toc-nav');
+    if (tocNav) {
+      tocNav.addEventListener('click', (e) => {
+        const a = (e.target instanceof Element ? e.target.closest('a') : null) as HTMLAnchorElement | null;
+        if (!a) return;
+        const href = a.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
+        e.preventDefault();
+        const id = href.slice(1);
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', `#${id}`);
       });
     }
   })();

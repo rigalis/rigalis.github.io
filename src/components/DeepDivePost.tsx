@@ -132,6 +132,47 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
     return () => { window.removeEventListener("resize", compute); clearTimeout(t); clearTimeout(t2) }
   }, [])
 
+  // Sidebar mode: show deep-dive TOC block in global Sidebar and sync progress/active
+  useEffect(() => {
+    const block = document.getElementById("deepdive-sidebar-block")
+    if (block) {
+      block.classList.remove("hidden")
+      block.classList.add("flex")
+    }
+    document.body.classList.add("deepdive-mode")
+    return () => {
+      const b = document.getElementById("deepdive-sidebar-block")
+      if (b) { b.classList.add("hidden"); b.classList.remove("flex") }
+      document.body.classList.remove("deepdive-mode")
+    }
+  }, [])
+
+  // Sync progress + active heading to sidebar + minimal track fill
+  useEffect(() => {
+    const pct = Math.round(progress * 100)
+    const circle = document.getElementById("sidebar-progress-circle") as unknown as SVGElement | null
+    const text = document.getElementById("sidebar-progress-text")
+    const label = document.getElementById("sidebar-active-label")
+    const track = document.getElementById("sidebar-track-fill")
+    const circ = 2 * Math.PI * 9.5
+    if (circle) (circle as any).style.strokeDashoffset = String(circ * (1 - progress))
+    if (text) text.textContent = `${pct}%`
+    if (label) label.textContent = HEADINGS.find(h => h.id === activeId)?.label || ""
+    if (track) (track as HTMLElement).style.height = `${pct}%`
+    document.querySelectorAll<HTMLAnchorElement>("#sidebar-toc-nav a").forEach(a => {
+      const id = a.getAttribute("data-toc-id")
+      const isActive = id === activeId
+      const isSub = HEADINGS.find(h => h.id === id)?.depth === 3
+      a.style.color = isActive ? "var(--foreground)" : "var(--muted-foreground)"
+      a.style.borderColor = isActive ? "var(--foreground)" : "transparent"
+      a.style.fontWeight = isActive ? "500" : "400"
+      a.style.paddingLeft = isSub ? "18px" : "12px"
+      a.style.background = isActive ? "var(--card-inner)" : "transparent"
+      if (isActive) a.style.borderRadius = "0 6px 6px 0"
+      else a.style.borderRadius = "0"
+    })
+  }, [progress, activeId])
+
   const scrollTo = (id: string) => {
     setTocOpen(false)
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })
@@ -163,52 +204,8 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
         </div>
       )}
 
-      {/* 3-col grid */}
-      <div className="max-w-[1280px] mx-auto px-4 xl:px-0 xl:grid xl:grid-cols-[220px_minmax(0,1fr)_260px] xl:gap-8 items-start">
-        {/* LEFT: progress index */}
-        <aside className="hidden xl:block sticky top-6 self-start h-fit">
-          <div className="flex items-center gap-2.5 mb-4">
-            <div className="relative w-[32px] h-[32px] shrink-0">
-              <svg width="32" height="32" viewBox="0 0 32 32" className="block">
-                <circle cx="16" cy="16" r="9.5" fill="none" stroke="var(--card-border)" strokeWidth="1.6" />
-                <circle cx="16" cy="16" r="9.5" fill="none" stroke="var(--foreground)" strokeWidth="1.6" strokeDasharray={2 * Math.PI * 9.5} strokeDashoffset={2 * Math.PI * 9.5 * (1 - progress)} strokeLinecap="round" style={{ transform: "rotate(-90deg)", transformOrigin: "50% 50%", transition: "stroke-dashoffset 0.08s linear" }} />
-              </svg>
-              <span className="absolute inset-0 grid place-items-center text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>{Math.round(progress * 100)}%</span>
-            </div>
-            <div>
-              <div className="text-[11px] tracking-wide font-semibold" style={{ color: "var(--foreground)", fontFamily: "var(--font-mono)" }}>DEEP DIVE</div>
-              <div className="text-[11px]" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>{HEADINGS.find(h => h.id === activeId)?.label}</div>
-            </div>
-          </div>
-
-          <div className="text-[10px] tracking-[0.12em] font-semibold mb-2.5" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>ON THIS PAGE</div>
-          <nav className="space-y-0.5 border-l pl-3" style={{ borderColor: "color-mix(in srgb, var(--card-border) 70%, transparent)" }}>
-            {HEADINGS.map(h => (
-              <a key={h.id} href={`#${h.id}`} onClick={(e) => { e.preventDefault(); scrollTo(h.id) }}
-                className={`block py-1.5 text-[13px] leading-5 transition-colors border-l -ml-[13px] pl-3 ${activeId === h.id ? "font-medium" : ""}`}
-                style={{
-                  paddingLeft: h.depth === 3 ? "18px" : "12px",
-                  color: activeId === h.id ? "var(--foreground)" : "var(--muted-foreground)",
-                  borderColor: activeId === h.id ? "var(--foreground)" : "transparent",
-                  borderLeftWidth: "1.5px",
-                  fontFamily: "var(--font-sans)"
-                }}>
-                {h.label}
-              </a>
-            ))}
-          </nav>
-
-          <div className="mt-6 pt-5 border-t space-y-2" style={{ borderColor: "var(--card-border)" }}>
-            <div className="text-[11px] font-semibold" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>Meta</div>
-            <div className="text-[12px] leading-5" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>
-              18 min · Binary Analysis<br />
-              <span className="inline-flex gap-1.5 mt-1.5 flex-wrap">
-                {["heap", "glibc", "pwn"].map(t => <span key={t} className="px-1.5 py-0.5 rounded-full border text-[10px]" style={{ borderColor: "var(--card-border)", background: "var(--card-inner)" }}>#{t}</span>)}
-              </span>
-            </div>
-          </div>
-        </aside>
-
+      {/* 2-col grid — left TOC moved to global Sidebar, center now wider */}
+      <div className="max-w-[1280px] mx-auto px-4 xl:px-0 xl:grid xl:grid-cols-[minmax(0,1fr)_280px] xl:gap-8 items-start">
         {/* CENTER: article */}
         <article ref={articleRef} className="min-w-0 max-w-[720px] mx-auto xl:mx-0 w-full">
           <button onClick={onBack} className="hidden xl:inline-flex items-center gap-2 text-[13px] mb-6 px-3 py-1.5 rounded-full border hover:bg-[var(--card-inner)] transition-colors" style={{ color: "var(--muted-foreground)", borderColor: "var(--card-border)", fontFamily: "var(--font-sans)" }}>
