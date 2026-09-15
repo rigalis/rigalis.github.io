@@ -43,7 +43,7 @@ export default function ProjectsTab() {
               onClick={() => setActiveCategory(c)}
               className={`px-3 py-1 font-mono text-xs rounded-full border transition-all cursor-pointer whitespace-nowrap ${
                 activeCategory === c
-                  ? "bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] border-[var(--accent)] text-[var(--accent)] font-bold"
+                  ? "bg-[var(--card-inner)] border-[var(--foreground)] text-[var(--foreground)] font-bold"
                   : "bg-[var(--card-inner)] border-[var(--card-border)] hover:border-[var(--card-border)] text-[var(--muted-foreground)]"
               }`}
             >

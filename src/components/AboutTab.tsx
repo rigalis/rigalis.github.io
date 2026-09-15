@@ -90,7 +90,7 @@ export default function AboutTab() {
               <h4 className="font-sans font-bold text-[var(--foreground)] text-sm leading-tight">
                 {mil.title}
               </h4>
-              <div className="text-[10px] font-mono text-[var(--muted-foreground)]/70">{mil.association}</div>
+              <div className="text-[12px] font-mono text-[var(--foreground)]">{mil.association}</div>
               <p className="text-[var(--muted-foreground)] leading-relaxed font-sans mt-1 text-[11px]">
                 {mil.description}
               </p>
