@@ -10,7 +10,7 @@ const pathname = Astro.url.pathname
     <span class="font-mono leading-none" style="font-size: 11px; color: var(--muted-foreground); letter-spacing: 0.06em;">rigalis</span>
   </a>
 
-  <!-- Nav, vertical like enscribe -->
+  <!-- Nav, vertical -->
   <nav class="flex flex-col gap-1">
     {NAV_LINKS.map((item) => {
       const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)
@@ -68,7 +68,7 @@ const pathname = Astro.url.pathname
   </div>
 </aside>
 
-<!-- Search modal, enscribe style -->
+<!-- Search modal -->
 <dialog id="search-dialog" class="p-0 bg-transparent backdrop:bg-black/60 open:flex items-center justify-center w-full max-w-xl mx-auto mt-[20vh] border-0">
   <div class="w-full bg-[var(--card)] border border-[var(--card-border)] rounded-[12px] overflow-hidden shadow-xl">
     <div class="flex items-center gap-3 px-4 py-3 border-b border-[var(--card-border)]">

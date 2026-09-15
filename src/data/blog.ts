@@ -2,13 +2,13 @@ import type { BlogPost } from "@/types";
 
 export const blogPosts: BlogPost[] = [
   {
-    id: "cam-1",
+    id: "z0d1ak-hadopelagic-vmception",
     title: "Shaders, a Signing Block, and a Self-Modifying VM [z0d1ak CTF]",
-    description: "Two reverse engineering challenges - Hadopelagic & VMception. Personalized APK, SPIR-V compute shaders, BLAKE2s key derivation, anti-debug traps, and a self-modifying VM - dead ends included.",
+    description: "Finding a 32-byte bearing hidden behind shader math and debugger traps, then cracking a self-modifying license VM by hand.",
     date: "Sep 14, 2026",
     readTime: "14 min read",
     category: "CTF Writeups",
-    tags: ["hadopelagic", "vmception", "reverse-engineering", "ctf", "android", "spirv", "cam-1"],
+    tags: ["hadopelagic", "vmception", "reverse-engineering", "ctf", "android", "spirv", "z0d1ak"],
     image: "/images/cam-1.png",
     content: `Got into z0d1ak CTF with THEM?! and idktheflag, really fun rev, even better theme, here are my solves for Hadopelagic & VMception.
 
@@ -666,7 +666,7 @@ Material referenced or relied on during these solves:
   {
     id: "heap-overflow-elf-hunting",
     title: "Deep Dive: Hunting Heap Overflows in ELF Binaries",
-    description: "An in-depth analysis of glibc allocator dynamics, heap chunk structures, and exploiting classic double-free & heap corruption - demo showcases enscribe-style left progress index, right marginalia, callouts, figures, tables, footnotes.",
+    description: "An in-depth analysis of glibc allocator dynamics, heap chunk structures, and exploiting classic double-free & heap corruption - demo showcases a left progress index, right marginalia, callouts, figures, tables, footnotes.",
     date: "May 18, 2026",
     readTime: "18 min read",
     category: "Binary Analysis",

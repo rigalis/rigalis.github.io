@@ -25,28 +25,22 @@ export default function AboutTab() {
 
   const ctfMilestones: TimelineEvent[] = [
     {
-      year: "2025 - Present",
+      year: "2026 - Present",
       title: "Head of Research & Development",
       association: "DJS ARYA · DJSCE",
-      description: "Leading R&D for ARYA — scoping systems and AI projects, mentoring teams, and building tooling around compilers, distributed execution, and security research."
+      description: "Leading R&D for ARYA, scoping systems and AI projects, mentoring teams, and building tooling around compilers, distributed execution, and security research."
     },
     {
-      year: "2025 - Present",
+      year: "2026 - Present",
       title: "CTF Player",
       association: "THEM?!",
-      description: "Competing in international CTFs. Focus on binary exploitation, reverse engineering, and custom VM / heap challenges. Also authoring Sekai-adjacent VM and pwn tasks."
+      description: "Competing in international CTFs. Focus on binary exploitation, reverse engineering, and custom VM / heap challenges."
     },
     {
-      year: "2024",
-      title: "Security Research Associate",
-      association: "Cyber Threat Intelligence Core",
-      description: "Traced heap corruption (double-frees & chunk overlaps) on older glibc, audited x86 dumps, and documented mitigations — with an eye toward how allocators behave as system components."
-    },
-    {
-      year: "2023",
-      title: "Design Engineer — Systems Interfaces",
-      association: "Studio Brutalism",
-      description: "Prototyped UI systems over low-level state — diagnostic dashboards that map systems internals to calm, readable views."
+      year: "June 2026 - Aug 2026",
+      title: "IT/OT Integration & Cybersecurity Intern",
+      association: "Jaajitech",
+      description: "Conducted VAPT across an ICS/SCADA product suite, focused on the application layer, exposed services, and IT/OT integration points. Documented findings with remediation guidance for the engineering team."
     }
   ];
 
@@ -60,16 +54,16 @@ export default function AboutTab() {
         </div>
         <div className="text-sm text-[var(--muted-foreground)] leading-relaxed font-sans space-y-3">
           <p>
-            Hi! I'm <strong className="text-[var(--foreground)]">Parth Patel</strong> (@rigalis) — <strong className="text-[var(--foreground)]">CTF player at THEM?!</strong> and <strong className="text-[var(--foreground)]">Head of Research & Development at DJS ARYA</strong>. My work sits between systems and security.
+            Hi! I'm <strong className="text-[var(--foreground)]">Parth Patel</strong> (@rigalis), <strong className="text-[var(--foreground)]">CTF player at THEM?!</strong> and <strong className="text-[var(--foreground)]">Head of Research & Development at DJS ARYA</strong>. My work sits between systems and security.
           </p>
           <p>
             I am <span className="font-mono text-[var(--foreground)]" style={{ fontFamily: "var(--font-mono)" }}>{age}</span> years old.
           </p>
           <p>
-            I care about how low-level systems actually behave — compilers, allocators, runtimes, distributed execution — and then designing calm, modern interfaces over that mess. CTF is still a big part of my days (pwn / reverse), but I think of myself as a systems person who uses CTF to stay sharp.
+            I care about how low-level systems actually behave, compilers, allocators, runtimes, distributed execution, and then designing calm, modern interfaces over that mess. CTF is still a big part of my days (pwn / reverse), but I think of myself as a systems person who uses CTF to stay sharp.
           </p>
           <p>
-            At ARYA I lead R&D — helping scope projects, mentor teams, and turn messy system constraints into legible tooling.
+            At ARYA I lead R&D, helping scope projects, mentor teams, and turn messy system constraints into legible tooling.
           </p>
         </div>
 

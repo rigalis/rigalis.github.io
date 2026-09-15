@@ -60,7 +60,7 @@ export default function BlogTab() {
     });
   };
 
-  // Sidebar TOC for generic posts (cam-1), mirrors DeepDivePost behavior
+  // Sidebar TOC for generic posts (z0d1ak-hadopelagic-vmception), mirrors DeepDivePost behavior
   useEffect(() => {
     const block = document.getElementById("deepdive-sidebar-block");
     const nav = document.getElementById("sidebar-toc-nav") as HTMLElement | null;

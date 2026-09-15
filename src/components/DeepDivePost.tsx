@@ -140,7 +140,7 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
       block.classList.add("flex")
     }
     document.body.classList.add("deepdive-mode")
-    // restore heap headings (may have been overwritten by cam-1), no left line, pill style
+    // restore heap headings (may have been overwritten by z0d1ak post), no left line, pill style
     const nav = document.getElementById("sidebar-toc-nav") as HTMLElement | null
     if (nav) {
       nav.style.borderLeft = "none"
@@ -248,7 +248,7 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
                 <img src="/images/pixel-clouds-blog.jpg" alt="abstract pixel clouds" className="w-full h-full object-cover" style={{ objectPosition: "center 28%", display: "block" }} />
               </div>
               <div className="px-3 py-2 flex items-center justify-between text-[11px] border-t" style={{ borderColor: "var(--card-border)", color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>
-                <span>Fig. 0, Hero concept: allocator arena (aesthetic placeholder).</span><span>→ enscribe-style figure caption</span>
+                <span>Fig. 0, Hero concept: allocator arena (aesthetic placeholder).</span><span>→ figure caption</span>
               </div>
             </div>
           </header>
@@ -336,8 +336,8 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
 /* When free, user area holds fd/bk pointers */`} />
 
             <blockquote className="my-6 pl-4 py-2 border-l-2 text-[14.5px] leading-6 italic" style={{ borderColor: "var(--foreground)", color: "var(--muted-foreground)", background: "color-mix(in srgb, var(--card) 60%, transparent)", fontFamily: "var(--font-sans)" }}>
-              “Judgement has always been easier than construction. AI just made it legible.”, enscribe, on taste vs craft. In heap auditing, judgement is spotting a plausible free; craft is proving overlap.
-              <div className="not-italic text-[11px] mt-1" style={{ fontFamily: "var(--font-mono)" }}>Marginal note pattern, inspired by enscribe's blockquotes</div>
+              “Judgement has always been easier than construction. AI just made it legible.” In heap auditing, judgement is spotting a plausible free; craft is proving overlap.
+              <div className="not-italic text-[11px] mt-1" style={{ fontFamily: "var(--font-mono)" }}>Marginal note pattern</div>
             </blockquote>
 
             {/* DOUBLE FREE */}
@@ -516,7 +516,7 @@ p.interactive()`} />
               </div>
               <div id="fn-2" className="flex gap-2">
                 <span className="shrink-0 font-mono text-[11px] px-1.5 py-0.5 rounded border" style={{ borderColor: "var(--card-border)", background: "var(--card-inner)", color: "var(--muted-foreground)" }}>[2]</span>
-                <span>Enscribe's “WTLLS factor” and “Recall” boxes inspired the definition + recall primitives used above. Original: <em>enscribe.dev/blog/smart-eyes-stupid-hands</em>. <a href="#" className="underline">↩</a></span>
+                <span>The definition + recall boxes above follow a "what to check, then recall" pattern. <a href="#" className="underline">↩</a></span>
               </div>
             </div>
 
@@ -578,7 +578,7 @@ p.interactive()`} />
               <div className="text-[12px] font-semibold" style={{ color: "var(--foreground)", fontFamily: "var(--font-title)" }}>References · beside fixes</div>
               <ul className="text-[12px] leading-5 mt-2 space-y-1 list-disc pl-4" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>
                 <li><a href="https://sourceware.org/glibc/wiki/MallocInternals" target="_blank" rel="noreferrer" className="underline">glibc MallocInternals</a></li>
-                <li>Enscribe, Smart Eyes, Stupid Hands (TOC + marginalia pattern)</li>
+                <li>TOC + marginalia pattern (index rail and sidenotes)</li>
                 <li>“House of Spirit”, tcache poisoning</li>
               </ul>
             </div>
