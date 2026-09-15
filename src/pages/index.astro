@@ -57,7 +57,7 @@ const latestPost = blogPosts[0]
       </div>
       <div class="bento lg:col-span-5 px-5 pt-5 pb-3 flex flex-col group overflow-hidden relative" style="min-height: 242px;">
         <div class="w-full aspect-[200/96] rounded-[10px] overflow-hidden relative shrink-0" style="border: 1px solid var(--card-border); background: var(--card-inner);">
-          <img src="/images/pixel-clouds-blog.jpg" alt="Latest post" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" style="object-position: center 28%;" />
+          <img src={latestPost.image || "/images/pixel-clouds-blog.jpg"} alt={latestPost.title} class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" style="object-position: center 28%;" />
           <div class="absolute top-0 left-0 px-2.5 py-1 rounded-tl-[10px] rounded-br-[8px] flex items-center gap-1.5" style="background: var(--foreground); color: var(--background); font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; line-height: 1;"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true" class="shrink-0" style="display: block; transform: translateY(0.2px);"><path d="M12 2l2.4 7.2H22l-6.2 4.5 2.4 7.3L12 16.9l-6.2 4.1 2.4-7.3L2 9.2h7.6z"/></svg><span style="line-height: 1; display: inline-block; transform: translateY(0.8px);">Latest Blog</span></div>
         </div>
         <div class="space-y-1 mt-4 pr-10">
@@ -65,7 +65,7 @@ const latestPost = blogPosts[0]
           <h4 class="font-medium text-[13px] leading-snug" style="color: var(--foreground); font-family: var(--font-title);">{latestPost.title}</h4>
         </div>
         {/* Functional — opens that post on /blog via hash */}
-        <a href="/blog#heap-overflow-elf-hunting" aria-label="Read post" class="absolute bottom-3 right-3 w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors z-10" style="background: color-mix(in srgb, var(--foreground) 82%, var(--background)); border: 1px solid color-mix(in srgb, var(--foreground) 82%, var(--background)); color: var(--background);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
+        <a href={`/blog#${latestPost.id}`} aria-label="Read post" class="absolute bottom-3 right-3 w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors z-10" style="background: color-mix(in srgb, var(--foreground) 82%, var(--background)); border: 1px solid color-mix(in srgb, var(--foreground) 82%, var(--background)); color: var(--background);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
       </div>
     </div>
  

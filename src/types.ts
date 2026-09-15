@@ -7,6 +7,7 @@ export interface BlogPost {
   readTime: string
   category: 'Reverse Engineering' | 'Binary Analysis' | 'Design' | 'CTF Writeups'
   tags: string[]
+  image?: string
 }
 
 export interface Project {

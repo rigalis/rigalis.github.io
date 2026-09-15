@@ -1,6 +1,6 @@
 export const SITE = {
   title: 'rigalis.dev',
-  description: 'Systems & security researcher — CTF player at THEM?!, Head of R&D at DJS ARYA. Compilers, allocators, design.',
+  description: 'Systems & security researcher, CTF player at THEM?!, Head of R&D at DJS ARYA. Compilers, allocators, design.',
   href: 'https://rigalis.me',
   author: 'Parth Patel',
   handle: 'rigalis',

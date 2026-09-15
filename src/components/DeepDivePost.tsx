@@ -13,7 +13,7 @@ type Heading = { id: string; label: string; depth: number }
 const HEADINGS: Heading[] = [
   { id: "introduction", label: "Introduction", depth: 2 },
   { id: "anatomy-heap-chunk", label: "Anatomy of a Heap Chunk", depth: 2 },
-  { id: "chunk-flags", label: "Chunk flags — AMP bits", depth: 3 },
+  { id: "chunk-flags", label: "Chunk flags, AMP bits", depth: 3 },
   { id: "double-free", label: "The Double-Free Vulnerability", depth: 2 },
   { id: "example-vulnerability", label: "Example: vulnerable C", depth: 3 },
   { id: "tcache-hardening", label: "tcache & Modern Hardening", depth: 2 },
@@ -140,6 +140,26 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
       block.classList.add("flex")
     }
     document.body.classList.add("deepdive-mode")
+    // restore heap headings (may have been overwritten by cam-1), no left line, pill style
+    const nav = document.getElementById("sidebar-toc-nav") as HTMLElement | null
+    if (nav) {
+      nav.style.borderLeft = "none"
+      nav.style.paddingLeft = "0"
+      nav.className = "space-y-1"
+      nav.innerHTML = ""
+      HEADINGS.forEach(h => {
+        const a = document.createElement("a")
+        a.href = `#${h.id}`
+        a.setAttribute("data-toc-id", h.id)
+        a.textContent = h.label
+        a.className = "block py-1 leading-4 transition-colors rounded-[6px] px-2 truncate"
+        a.style.marginLeft = h.depth === 3 ? "12px" : "0px"
+        a.style.color = "var(--muted-foreground)"
+        a.style.fontFamily = "var(--font-sans)"
+        a.style.fontSize = h.depth === 3 ? "11px" : "12px"
+        nav.appendChild(a)
+      })
+    }
     return () => {
       const b = document.getElementById("deepdive-sidebar-block")
       if (b) { b.classList.add("hidden"); b.classList.remove("flex") }
@@ -204,7 +224,7 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
         </div>
       )}
 
-      {/* 2-col grid — left TOC moved to global Sidebar, center now wider */}
+      {/* 2-col grid, left TOC moved to global Sidebar, center now wider */}
       <div className="max-w-[1280px] mx-auto px-4 xl:px-0 xl:grid xl:grid-cols-[minmax(0,1fr)_280px] xl:gap-8 items-start">
         {/* CENTER: article */}
         <article ref={articleRef} className="min-w-0 max-w-[720px] mx-auto xl:mx-0 w-full">
@@ -221,14 +241,14 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
               <span>·</span><span>May 18, 2026</span><span>·</span><span>18 min</span><span>·</span><span className="px-2 py-0.5 rounded-full border text-[11px]" style={{ borderColor: "var(--card-border)", background: "var(--card-inner)" }}>Binary Analysis</span>
             </div>
             <p className="mt-4 text-[15.5px] leading-7" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>
-              An in-depth analysis of glibc allocator dynamics, heap chunk structures, and exploiting classic double-free &amp; heap corruption vulnerabilities — rebuilt as a fully-featured demo to showcase every blog primitive: TOC progress, marginalia, callouts, figures, code, tables, footnotes and more.
+              An in-depth analysis of glibc allocator dynamics, heap chunk structures, and exploiting classic double-free &amp; heap corruption vulnerabilities, rebuilt as a fully-featured demo to showcase every blog primitive: TOC progress, marginalia, callouts, figures, code, tables, footnotes and more.
             </p>
             <div className="w-full rounded-[12px] overflow-hidden mt-6" style={{ border: "1px solid var(--card-border)", background: "var(--card-inner)" }}>
               <div className="w-full aspect-[200/96] overflow-hidden relative">
                 <img src="/images/pixel-clouds-blog.jpg" alt="abstract pixel clouds" className="w-full h-full object-cover" style={{ objectPosition: "center 28%", display: "block" }} />
               </div>
               <div className="px-3 py-2 flex items-center justify-between text-[11px] border-t" style={{ borderColor: "var(--card-border)", color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>
-                <span>Fig. 0 — Hero concept: allocator arena (aesthetic placeholder).</span><span>→ enscribe-style figure caption</span>
+                <span>Fig. 0, Hero concept: allocator arena (aesthetic placeholder).</span><span>→ enscribe-style figure caption</span>
               </div>
             </div>
           </header>
@@ -243,7 +263,7 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
             <p>This post is intentionally <em>kitchen-sink</em>: every typographic primitive the blog supports is exercised here on a single deep-dive so you can see the left progress index, right marginalia, and all text-box variants in one scroll.</p>
 
             <Callout variant="tip" title="How to use this demo">
-              On desktop, watch the left rail — the circular progress + vertical indicator tracks reading progress. The right column shows <em>support text</em> (marginalia) anchored to sections. On mobile, progress collapses into the sticky top bar. Try jumping via the index.
+              On desktop, watch the left rail, the circular progress + vertical indicator tracks reading progress. The right column shows <em>support text</em> (marginalia) anchored to sections. On mobile, progress collapses into the sticky top bar. Try jumping via the index.
             </Callout>
 
             {/* ANATOMY */}
@@ -253,7 +273,7 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
             <p>In 64-bit glibc, every allocated block is <strong>16-byte aligned</strong> and represented by a contiguous chunk header that prefixes user data. The header stores size + flags that drive coalescing and binning.</p>
 
             <div className="rounded-[12px] border p-5 my-6" style={{ background: "var(--card)", borderColor: "var(--card-border)" }}>
-              <div className="text-[11px] tracking-[0.14em] font-semibold mb-3" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>DEFINITION — Heap Chunk</div>
+              <div className="text-[11px] tracking-[0.14em] font-semibold mb-3" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>DEFINITION, Heap Chunk</div>
               <div className="text-[14px] leading-6" style={{ color: "var(--foreground)" }}>
                 A <strong>chunk</strong> is the allocator's unit of memory: <code className="px-1.5 py-0.5 rounded border text-[12.5px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>prev_size | size | AMP | user_data</code>. When freed, the user area is repurposed as forward/back pointers linking free lists (bins/tcache).
               </div>
@@ -272,7 +292,7 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
             </div>
 
             <h3 id="chunk-flags" className="text-[18px] font-semibold mt-8 mb-2 flex items-center gap-2 scroll-mt-24" style={{ fontFamily: "var(--font-title)" }}>
-              Chunk flags — AMP bits <a href="#chunk-flags" className="text-[13px] opacity-50 hover:opacity-100" style={{ color: "var(--muted-foreground)" }}>#</a>
+              Chunk flags, AMP bits <a href="#chunk-flags" className="text-[13px] opacity-50 hover:opacity-100" style={{ color: "var(--muted-foreground)" }}>#</a>
             </h3>
             <p>The lowest 3 bits of <code className="px-1 py-0.5 rounded border text-[12.5px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>size</code> are flags, not size:</p>
 
@@ -290,7 +310,7 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
                   <tbody>
                     {[
                       ["A", "0x4", "NON_MAIN_ARENA", "Allocated off the main arena (thread arena)"],
-                      ["M", "0x2", "IS_MMAPPED", "Chunk mmapped — not in heap segment"],
+                      ["M", "0x2", "IS_MMAPPED", "Chunk mmapped, not in heap segment"],
                       ["P", "0x1", "PREV_INUSE", "Prev chunk in use; if 0, prev_size is valid"],
                     ].map(([b, m, n, d]) => (
                       <tr key={n} className="border-b last:border-0" style={{ borderColor: "var(--card-border)", background: "var(--background)" }}>
@@ -303,10 +323,10 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
                   </tbody>
                 </table>
               </div>
-              <div className="px-3 py-2 text-[11px] border-t" style={{ borderColor: "var(--card-border)", color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>Table 1 — AMP flag semantics in ptmalloc.</div>
+              <div className="px-3 py-2 text-[11px] border-t" style={{ borderColor: "var(--card-border)", color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>Table 1, AMP flag semantics in ptmalloc.</div>
             </div>
 
-            <CodeBlock lang="c" filename="chunk.h — schematic" code={`/* Schematic — allocated chunk (64-bit) */
+            <CodeBlock lang="c" filename="chunk.h, schematic" code={`/* Schematic, allocated chunk (64-bit) */
 +-----------------------------+-----------------------------+
 |      Previous Chunk Size    |      Current Chunk size |AMP|
 +-----------------------------+-----------------------------+
@@ -316,17 +336,17 @@ export default function DeepDivePost({ onBack }: { onBack: () => void }) {
 /* When free, user area holds fd/bk pointers */`} />
 
             <blockquote className="my-6 pl-4 py-2 border-l-2 text-[14.5px] leading-6 italic" style={{ borderColor: "var(--foreground)", color: "var(--muted-foreground)", background: "color-mix(in srgb, var(--card) 60%, transparent)", fontFamily: "var(--font-sans)" }}>
-              “Judgement has always been easier than construction. AI just made it legible.” — enscribe, on taste vs craft. In heap auditing, judgement is spotting a plausible free; craft is proving overlap.
-              <div className="not-italic text-[11px] mt-1" style={{ fontFamily: "var(--font-mono)" }}>— Marginal note pattern, inspired by enscribe's blockquotes</div>
+              “Judgement has always been easier than construction. AI just made it legible.”, enscribe, on taste vs craft. In heap auditing, judgement is spotting a plausible free; craft is proving overlap.
+              <div className="not-italic text-[11px] mt-1" style={{ fontFamily: "var(--font-mono)" }}>Marginal note pattern, inspired by enscribe's blockquotes</div>
             </blockquote>
 
             {/* DOUBLE FREE */}
             <h2 id="double-free" className="text-[24px] font-semibold tracking-tight mt-10 mb-3 flex items-center gap-2 scroll-mt-24" style={{ fontFamily: "var(--font-title)" }}>
               The Double-Free Vulnerability <a href="#double-free" className="text-[14px] opacity-50 hover:opacity-100" style={{ color: "var(--muted-foreground)" }}>#</a>
             </h2>
-            <p>When a chunk is freed twice without clearing the pointer, bin structures (fastbins / tcache) can form cycles or duplicate references to the same slot. Later <code className="px-1 py-0.5 rounded border text-[12.5px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>malloc</code> returns the same address twice — two live pointers to one region.</p>
+            <p>When a chunk is freed twice without clearing the pointer, bin structures (fastbins / tcache) can form cycles or duplicate references to the same slot. Later <code className="px-1 py-0.5 rounded border text-[12.5px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>malloc</code> returns the same address twice, two live pointers to one region.</p>
 
-            <Callout variant="danger" title="Danger — why this is exploitable">
+            <Callout variant="danger" title="Danger, why this is exploitable">
               Duplicate allocation breaks the allocator's invariant that each chunk has a single owner. Writing through one pointer corrupts data seen via the other, enabling arbitrary write, control-flow hijack, or tcache poisoning on modern glibc.
             </Callout>
 
@@ -348,14 +368,14 @@ int main() {
     void *p3 = malloc(64); // Allocates p1 again
     void *p4 = malloc(64); // Allocates p2
     void *p5 = malloc(64); // Allocates p1 AGAIN (overlaps p3!)
-    // p3 and p5 now alias — write to one corrupts the other
+    // p3 and p5 now alias, write to one corrupts the other
 }`} />
 
-            <Callout variant="warning" title="Note — glibc 2.32+ mitigations">
-              Recent tcache includes keyed double-free detection (<code className="px-1 py-0.5 rounded border text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>tcache double free or corruption</code>). Bypass requires more nuanced heap feng shui — e.g., consolidations, large-bin attacks, or House of * techniques. This demo shows the classic primitive.
+            <Callout variant="warning" title="Note, glibc 2.32+ mitigations">
+              Recent tcache includes keyed double-free detection (<code className="px-1 py-0.5 rounded border text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>tcache double free or corruption</code>). Bypass requires more nuanced heap feng shui, e.g., consolidations, large-bin attacks, or House of * techniques. This demo shows the classic primitive.
             </Callout>
 
-            <Callout variant="info" title="Info — auditing tip">
+            <Callout variant="info" title="Info, auditing tip">
               In Ghidra / IDA, xref all <code className="px-1 py-0.5 rounded border text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>free</code> call sites, then taint-track pointers that aren't nulled post-free. A single <code className="px-1 py-0.5 rounded border text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>free(ptr); ptr=NULL;</code> pattern missing is a heatmap for double-free candidates.
             </Callout>
 
@@ -368,7 +388,7 @@ int main() {
             <div className="rounded-[10px] p-4 my-5 flex gap-3" style={{ background: "var(--card)", border: "1px solid var(--card-border)" }}>
               <span className="text-[12px] shrink-0 px-2 py-1 rounded-full border self-start" style={{ borderColor: "var(--card-border)", background: "var(--card-inner)", fontFamily: "var(--font-mono)", color: "var(--muted-foreground)" }}>VS</span>
               <div className="text-[13px] leading-6" style={{ color: "var(--muted-foreground)" }}>
-                <span style={{ color: "var(--foreground)", fontWeight: 600 }}>Old fastbins</span> vs <span style={{ color: "var(--foreground)", fontWeight: 600 }}>New tcache</span> — fastbins are LIFO doubly-linked-ish; tcache is per-thread, singly-linked, up to 7 entries per size class, with key randomization. Attackers used to count on determinism; now they must groom precise counts.
+                <span style={{ color: "var(--foreground)", fontWeight: 600 }}>Old fastbins</span> vs <span style={{ color: "var(--foreground)", fontWeight: 600 }}>New tcache</span>, fastbins are LIFO doubly-linked-ish; tcache is per-thread, singly-linked, up to 7 entries per size class, with key randomization. Attackers used to count on determinism; now they must groom precise counts.
               </div>
             </div>
 
@@ -377,9 +397,9 @@ int main() {
             </h3>
 
             <div className="rounded-[12px] border p-5 my-5" style={{ background: "color-mix(in srgb, var(--card) 70%, transparent)", borderColor: "var(--card-border)" }}>
-              <div className="text-[11px] tracking-[0.14em] font-semibold mb-2" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>RECALL — As a recap, we've discussed:</div>
+              <div className="text-[11px] tracking-[0.14em] font-semibold mb-2" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>RECALL, As a recap, we've discussed:</div>
               <ul className="list-disc pl-5 space-y-1.5 text-[13.5px] leading-6" style={{ color: "var(--muted-foreground)" }}>
-                <li>Heap chunks carry <code className="px-1 py-0.5 rounded border text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>prev_size / size+AMP / fd,bk</code> — misinterpreting flags breaks analysis.</li>
+                <li>Heap chunks carry <code className="px-1 py-0.5 rounded border text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>prev_size / size+AMP / fd,bk</code>, misinterpreting flags breaks analysis.</li>
                 <li>Double-free re-introduces the same chunk to a freelist, yielding aliased live pointers.</li>
                 <li>tcache changed heap exploitation from deterministic to count-sensitive grooming.</li>
                 <li>Missing <code className="px-1 py-0.5 rounded border text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>ptr = NULL</code> after free is the cheapest inter-procedural signal.</li>
@@ -408,8 +428,8 @@ p.sendlineafter(b'> ', b'4')
 p.sendline(b'/bin/sh\\x00')
 p.interactive()`} />
 
-            <Callout variant="success" title="Success — what the exploit achieves">
-              Reliable overlapping chunks in ~40 ms locally. On remote, add heap grooming sleeps and one extra allocation to align tcache counts. Success here turns a logic bug intocode execution — the blog's “danger” box becomes an <em>actionable</em> lab.
+            <Callout variant="success" title="Success, what the exploit achieves">
+              Reliable overlapping chunks in ~40 ms locally. On remote, add heap grooming sleeps and one extra allocation to align tcache counts. Success here turns a logic bug intocode execution, the blog's “danger” box becomes an <em>actionable</em> lab.
             </Callout>
 
             <h3 id="visualising-corruption" className="text-[18px] font-semibold mt-8 mb-2 flex items-center gap-2 scroll-mt-24" style={{ fontFamily: "var(--font-title)" }}>
@@ -419,7 +439,7 @@ p.interactive()`} />
             <figure className="my-6 rounded-[12px] overflow-hidden border" style={{ borderColor: "var(--card-border)", background: "var(--card)" }}>
               <div className="aspect-[16/9] w-full grid place-items-center p-6" style={{ background: "repeating-linear-gradient(45deg, var(--card-inner), var(--card-inner) 12px, var(--card) 12px, var(--card) 24px)" }}>
                 <div className="rounded-[10px] border px-4 py-5 max-w-[520px] w-full text-center" style={{ background: "var(--background)", borderColor: "var(--card-border)" }}>
-                  <div className="text-[11px] tracking-[0.12em] font-semibold" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>FIGURE 1 — HEAP OVERLAP AFTER DOUBLE FREE</div>
+                  <div className="text-[11px] tracking-[0.12em] font-semibold" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>FIGURE 1, HEAP OVERLAP AFTER DOUBLE FREE</div>
                   <div className="mt-3 flex justify-center gap-2 font-mono text-[11px]">
                     <span className="px-3 py-1.5 rounded border" style={{ background: "#ef444422", borderColor: "#ef444455", color: "#ef4444" }}>p3 alias</span>
                     <span className="px-3 py-1.5 rounded border" style={{ background: "#f59e0b22", borderColor: "#f59e0b55", color: "#f59e0b" }}>p5 alias</span>
@@ -429,12 +449,12 @@ p.interactive()`} />
                 </div>
               </div>
               <figcaption className="px-3.5 py-2.5 text-[12px] leading-5 border-t flex gap-2" style={{ borderColor: "var(--card-border)", color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>
-                <span className="shrink-0 font-semibold" style={{ fontFamily: "var(--font-mono)", color: "var(--foreground)" }}>Caption.</span> Minimal figure component demo: bordered card, centered illustration placeholder, caption row with left label — used for CFG screenshots, heap dumps, or Ghidra panels.
+                <span className="shrink-0 font-semibold" style={{ fontFamily: "var(--font-mono)", color: "var(--foreground)" }}>Caption.</span> Minimal figure component demo: bordered card, centered illustration placeholder, caption row with left label, used for CFG screenshots, heap dumps, or Ghidra panels.
               </figcaption>
             </figure>
 
-            <Callout variant="tip" title="Try it — lab variant">
-              Replace double-free with <strong>use-after-free</strong>: free <code className="px-1 py-0.5 rounded border text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>p1</code>, keep pointer, malloc same size, write controlled data — read-after-free leaks, write-after-free corrupts. Same visual model, subtler trigger.
+            <Callout variant="tip" title="Try it, lab variant">
+              Replace double-free with <strong>use-after-free</strong>: free <code className="px-1 py-0.5 rounded border text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>p1</code>, keep pointer, malloc same size, write controlled data, read-after-free leaks, write-after-free corrupts. Same visual model, subtler trigger.
             </Callout>
 
             {/* MITIGATIONS */}
@@ -455,7 +475,7 @@ p.interactive()`} />
                   </thead>
                   <tbody>
                     {[
-                      ["Code", "free(ptr); ptr=NULL; — single statement fix", "Near zero"],
+                      ["Code", "free(ptr); ptr=NULL;, single statement fix", "Near zero"],
                       ["Compiler", "-D_FORTIFY_SOURCE=2 / -fstack-protector", "Recompile"],
                       ["Allocator", "Safe unlink, tcache key, safe linking", "Upgrade glibc"],
                       ["Runtime", "ASLR, PIE, heap tagging (MTE)", "Platform"],
@@ -473,16 +493,16 @@ p.interactive()`} />
 
             <p>As a checklist when you audit a C codebase for heap hygiene:</p>
             <ol className="list-decimal pl-5 space-y-1.5 my-4 text-[14px]" style={{ color: "var(--muted-foreground)" }}>
-              <li>Trace every <code className="px-1 py-0.5 rounded border text-[12px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>malloc</code> to its <code className="px-1 py-0.5 rounded border text-[12px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>free</code> — flag unpaired frees.</li>
+              <li>Trace every <code className="px-1 py-0.5 rounded border text-[12px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>malloc</code> to its <code className="px-1 py-0.5 rounded border text-[12px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>free</code>, flag unpaired frees.</li>
               <li>Enforce <code className="px-1 py-0.5 rounded border text-[12px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>free; null</code> idiom via clang-tidy rule.</li>
-              <li>Fuzz with AddressSanitizer — double-free is caught as <code className="px-1 py-0.5 rounded border text-[12px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>attempting double-free</code>.</li>
+              <li>Fuzz with AddressSanitizer, double-free is caught as <code className="px-1 py-0.5 rounded border text-[12px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>attempting double-free</code>.</li>
               <li>Ship with hardened allocator in prod if latency allows.</li>
             </ol>
 
             <hr className="my-8" style={{ borderColor: "var(--card-border)" }} />
 
             <p className="text-[13px] leading-6 italic" style={{ color: "var(--muted-foreground)" }}>
-              Up next — automatic exploit synthesis with <code className="px-1 py-0.5 rounded border not-italic text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>pwntools</code> + <code className="px-1 py-0.5 rounded border not-italic text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>GDB GEF</code>. This kitchen-sink article stays as the demo for all blog primitives — left index, marginalia, callouts, code, figures, tables, footnotes.
+              Up next, automatic exploit synthesis with <code className="px-1 py-0.5 rounded border not-italic text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>pwntools</code> + <code className="px-1 py-0.5 rounded border not-italic text-[11px]" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>GDB GEF</code>. This kitchen-sink article stays as the demo for all blog primitives, left index, marginalia, callouts, code, figures, tables, footnotes.
             </p>
 
             {/* FOOTNOTES */}
@@ -507,14 +527,14 @@ p.interactive()`} />
           </footer>
         </article>
 
-        {/* RIGHT: support text / marginalia — scrolls with content, cards pinned beside relevant sections */}
+        {/* RIGHT: support text / marginalia, scrolls with content, cards pinned beside relevant sections */}
         <aside ref={rightRailRef} className="hidden xl:block relative self-start" style={{ minHeight: "800px" }}>
-          {/* Stack at top beside Introduction — scrolls away */}
+          {/* Stack at top beside Introduction, scrolls away */}
           <div className="absolute left-0 right-0 space-y-4" style={{ top: `${asideTops.glance}px` }}>
             <div className="rounded-[12px] border p-4" style={{ background: "var(--card)", borderColor: "var(--card-border)" }}>
               <div className="text-[11px] tracking-[0.12em] font-semibold flex items-center gap-1.5" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}><span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--foreground)" }} /> SUPPORT TEXT</div>
               <div className="text-[12px] leading-5 mt-2" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>
-                Marginalia now <em>scrolls</em> — each card is absolutely positioned beside its section (amp → flags table, lab → exploit). Resize to recalc.
+                Marginalia now <em>scrolls</em>, each card is absolutely positioned beside its section (amp → flags table, lab → exploit). Resize to recalc.
               </div>
             </div>
 
@@ -530,36 +550,36 @@ p.interactive()`} />
             </div>
           </div>
 
-          {/* SIDENOTE — AMP — pinned beside chunk-flags */}
+          {/* SIDENOTE, AMP, pinned beside chunk-flags */}
           <div className="absolute left-0 right-0" style={{ top: `${asideTops.amp}px` }}>
             <div className="rounded-[12px] border p-4" style={{ background: "var(--card-inner)", borderColor: "var(--card-border)" }}>
-              <div className="text-[11px] tracking-[0.1em] font-semibold" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>SIDENOTE — AMP · beside flags table</div>
+              <div className="text-[11px] tracking-[0.1em] font-semibold" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>SIDENOTE, AMP · beside flags table</div>
               <div className="text-[12.5px] leading-5 mt-1.5" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>
-                Why 3 bits? Alignment guarantees low bits are zero for 16-byte chunks, so glibc steals them — no extra header word. Free chunk's <code className="px-1 py-0.5 rounded border text-[10px]" style={{ background: "var(--card)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>fd</code> overlaps user data — that's the overwrite target.
+                Why 3 bits? Alignment guarantees low bits are zero for 16-byte chunks, so glibc steals them, no extra header word. Free chunk's <code className="px-1 py-0.5 rounded border text-[10px]" style={{ background: "var(--card)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>fd</code> overlaps user data, that's the overwrite target.
               </div>
               <a href="#chunk-flags" onClick={(e) => { e.preventDefault(); scrollTo("chunk-flags") }} className="inline-block mt-2 text-[11px] underline" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>→ Flags table</a>
             </div>
           </div>
 
-          {/* Lab tip — beside exploitation-lab */}
+          {/* Lab tip, beside exploitation-lab */}
           <div className="absolute left-0 right-0" style={{ top: `${asideTops.lab}px` }}>
             <div className="rounded-[12px] border p-4" style={{ background: "#f59e0b11", borderColor: "#f59e0b33" }}>
               <div className="text-[12px] font-semibold" style={{ color: "#f59e0b", fontFamily: "var(--font-title)" }}>▣ Lab tip · beside exploit</div>
               <div className="text-[12.5px] leading-5 mt-1.5" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>
-                Run with <code className="px-1 py-0.5 rounded border text-[10px]" style={{ background: "var(--card)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>MALLOC_CONF=tcache:false</code> to compare classic vs modern path. Count tcache fills — 7 is the magic number per size class.
+                Run with <code className="px-1 py-0.5 rounded border text-[10px]" style={{ background: "var(--card)", borderColor: "var(--card-border)", fontFamily: "var(--font-mono)" }}>MALLOC_CONF=tcache:false</code> to compare classic vs modern path. Count tcache fills, 7 is the magic number per size class.
               </div>
               <a href="#exploitation-lab" onClick={(e) => { e.preventDefault(); scrollTo("exploitation-lab") }} className="inline-block mt-2 text-[11px] underline" style={{ color: "#f59e0b", fontFamily: "var(--font-mono)" }}>→ Exploitation lab</a>
             </div>
           </div>
 
-          {/* References — beside mitigations */}
+          {/* References, beside mitigations */}
           <div className="absolute left-0 right-0" style={{ top: `${asideTops.refs}px` }}>
             <div className="rounded-[12px] border p-4" style={{ background: "var(--card)", borderColor: "var(--card-border)" }}>
               <div className="text-[12px] font-semibold" style={{ color: "var(--foreground)", fontFamily: "var(--font-title)" }}>References · beside fixes</div>
               <ul className="text-[12px] leading-5 mt-2 space-y-1 list-disc pl-4" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>
                 <li><a href="https://sourceware.org/glibc/wiki/MallocInternals" target="_blank" rel="noreferrer" className="underline">glibc MallocInternals</a></li>
-                <li>Enscribe — Smart Eyes, Stupid Hands (TOC + marginalia pattern)</li>
-                <li>“House of Spirit” — tcache poisoning</li>
+                <li>Enscribe, Smart Eyes, Stupid Hands (TOC + marginalia pattern)</li>
+                <li>“House of Spirit”, tcache poisoning</li>
               </ul>
             </div>
           </div>

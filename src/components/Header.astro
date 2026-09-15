@@ -10,14 +10,14 @@ const pathname = Astro.url.pathname
   style="background: var(--nav-bg);"
 >
   <div class="max-w-5xl mx-auto flex items-center justify-between">
-    <!-- Logo — Parth Patel / rigalis -->
+    <!-- Logo, Parth Patel / rigalis -->
     <a href="/" class="flex flex-col gap-0 leading-none group cursor-pointer select-none">
       <span class="leading-none tracking-tight" style="font-family: var(--font-title); font-size: 14px; font-weight: 700; color: var(--foreground); letter-spacing: -0.02em;">Parth Patel</span>
       <span class="font-mono leading-none" style="font-size: 10px; color: var(--muted-foreground); letter-spacing: 0.06em;">rigalis</span>
     </a>
 
     <div class="flex items-center gap-1.5">
-      <!-- Nav — DM Sans like top bar -->
+      <!-- Nav, DM Sans like top bar -->
       <nav class="flex items-center gap-1">
         {
           NAV_LINKS.map((item) => {
@@ -37,7 +37,7 @@ const pathname = Astro.url.pathname
           })
         }
       </nav>
-      <!-- Theme toggle — small -->
+      <!-- Theme toggle, small -->
       <button
         id="theme-toggle"
         aria-label="Toggle theme"
