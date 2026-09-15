@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 type SpotifyProps = {
   spotifyUrl?: string
@@ -6,10 +6,10 @@ type SpotifyProps = {
   artist?: string
 }
 
-type LastTrack = { name: string; artist: string; album: string; image: string; url: string; uts?: number }
+type LastTrack = { name: string; artist: string; album: string; image: string; url: string; uts?: number; nowplaying?: boolean }
 
-function formatAgo(uts: number) {
-  const diff = Math.max(0, Math.floor(Date.now() / 1000 - uts))
+function formatAgo(uts: number, now: number = Date.now()) {
+  const diff = Math.max(0, Math.floor(now / 1000 - uts))
   if (diff < 60) return `${diff}s ago`
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`
   if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`
@@ -19,43 +19,51 @@ function formatAgo(uts: number) {
 
 export default function SpotifyWidgets({ spotifyUrl = "https://www.last.fm/user/zneq", trackTitle: fallbackTitle = "Orbit Chiptune", artist: fallbackArtist = "rigalis" }: SpotifyProps) {
   const [track, setTrack] = useState<LastTrack | null>(null)
-  const [status, setStatus] = useState<string>("Last played — 2h ago")
+  const [tick, setTick] = useState<number>(Date.now())
+
+  const status = useMemo(() => {
+    if (!track) return "Last played — 2h ago"
+    if (track.nowplaying) return "Now playing"
+    if (track.uts) return `Last played — ${formatAgo(track.uts, tick)}`
+    return "Last played — 2h ago"
+  }, [track, tick])
 
   useEffect(() => {
     const user = ((import.meta.env.PUBLIC_LASTFM_USER as string) || (import.meta.env.LASTFM_USER as string) || "zneq")
     const key = (import.meta.env.PUBLIC_LASTFM_API_KEY as string) || (import.meta.env.LASTFM_API_KEY as string)
     if (!key) return // no key → keep fallback, free requires key from last.fm/api/account/create
     let cancelled = false
-    fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(user)}&api_key=${key}&format=json&limit=1`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (cancelled) return
-        const tracks = data?.recenttracks?.track
-        const t = Array.isArray(tracks) ? tracks[0] : tracks
-        if (!t || !t.name) {
-          setStatus("Last played — 2h ago")
-          return
-        }
-        const img = (t.image?.find((i: any) => i.size === "extralarge") || t.image?.[3] || t.image?.[0])?.["#text"] || ""
-        const uts = t.date?.uts ? parseInt(t.date.uts, 10) : undefined
-        setTrack({
-          name: t.name || fallbackTitle,
-          artist: t.artist?.["#text"] || t.artist?.name || fallbackArtist,
-          album: t.album?.["#text"] || "system_tones",
-          image: img,
-          url: t.url || spotifyUrl,
-          uts,
+    const load = () => {
+      fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(user)}&api_key=${key}&format=json&limit=1`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (cancelled) return
+          const tracks = data?.recenttracks?.track
+          const t = Array.isArray(tracks) ? tracks[0] : tracks
+          if (!t || !t.name) return // keep last-known track on empty/error responses
+          const img = (t.image?.find((i: any) => i.size === "extralarge") || t.image?.[3] || t.image?.[0])?.["#text"] || ""
+          const uts = t.date?.uts ? parseInt(t.date.uts, 10) : undefined
+          setTrack({
+            name: t.name || fallbackTitle,
+            artist: t.artist?.["#text"] || t.artist?.name || fallbackArtist,
+            album: t.album?.["#text"] || "system_tones",
+            image: img,
+            url: t.url || spotifyUrl,
+            uts,
+            nowplaying: t["@attr"]?.nowplaying === "true",
+          })
         })
-        const now = t["@attr"]?.nowplaying === "true"
-        if (now) setStatus("Now playing")
-        else if (uts) setStatus(`Last played — ${formatAgo(uts)}`)
-        else setStatus("Last played — 2h ago")
-      })
-      .catch(() => {
-        if (!cancelled) setStatus("Last played — 2h ago")
-      })
+        .catch(() => {
+          // keep last-known track on network failure
+        })
+    }
+    load()
+    const poll = setInterval(load, 30000) // re-sync with Last.fm
+    const clock = setInterval(() => setTick(Date.now()), 15000) // tick the "x ago" label
     return () => {
       cancelled = true
+      clearInterval(poll)
+      clearInterval(clock)
     }
   }, [fallbackTitle, fallbackArtist, spotifyUrl])
 
