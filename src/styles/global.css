@@ -42,8 +42,8 @@
 }
 
 :root[data-theme='light'] {
-  --background: #faf4ed;
-  --bg-hard: #ede7df;
+  --background: #f2e9db;
+  --bg-hard: #e7ddd0;
   --foreground: #332b21;
   --border: #d4cdc5;
   --muted: #ede7df;
@@ -59,11 +59,11 @@
   --accent-yellow: #feead0;
   --accent-gray: #686056;
 
-  --card: #ede7df;
-  --card-border: #d4cdc5;
-  --card-inner: #e0dad2;
-  --nav-bg: #faf4ed;
-  --input-bg: #e0dad2;
+  --card: #e7ddd0;
+  --card-border: #cfc4b4;
+  --card-inner: #dbd0bf;
+  --nav-bg: #f2e9db;
+  --input-bg: #dbd0bf;
 }
 
 html {
@@ -133,6 +133,15 @@ h3 { font-size: clamp(0.95rem, 1.8vw, 1.05rem); }
 
 hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
 .font-ascii { font-family: var(--font-mono); letter-spacing: 0.08em; font-size: 10px; color: var(--muted-foreground); }
+
+/* rigalis shimmer — dark variant on light theme so it reads on cream */
+:root[data-theme='light'] .rigalis-gradient {
+  background: linear-gradient(90deg, #332b21 0%, #6e6152 25%, #9a8d7a 50%, #5c5245 75%, #332b21 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
 
 @keyframes ping-slow {
   75%, 100% { transform: scale(1.8); opacity: 0; }

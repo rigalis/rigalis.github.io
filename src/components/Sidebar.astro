@@ -122,7 +122,8 @@ const pathname = Astro.url.pathname
     const tocNav = document.getElementById('sidebar-toc-nav');
     if (tocNav) {
       tocNav.addEventListener('click', (e) => {
-        const a = (e.target instanceof Element ? e.target.closest('a') : null) as HTMLAnchorElement | null;
+        var t = e.target instanceof Element ? e.target.closest('a') : null;
+        var a = t;
         if (!a) return;
         const href = a.getAttribute('href');
         if (!href || !href.startsWith('#')) return;

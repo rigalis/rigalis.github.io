@@ -41,6 +41,12 @@ export default function AboutTab() {
       title: "IT/OT Integration & Cybersecurity Intern",
       association: "Jaajitech",
       description: "Conducted VAPT across an ICS/SCADA product suite, focused on the application layer, exposed services, and IT/OT integration points. Documented findings with remediation guidance for the engineering team."
+    },
+    {
+      year: "2025 - Present",
+      title: "Open Source Contributor",
+      association: "@Layer5 · @LLVM · @Rizin",
+      description: "Contributing to open-source systems, compilers and reverse-engineering tooling."
     }
   ];
 

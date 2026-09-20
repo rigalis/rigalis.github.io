@@ -10,9 +10,10 @@ export default function MapWidget() {
     let shineHolder: HTMLDivElement | null = null
     import('leaflet').then((L) => {
       if (!mounted || !mapRef.current) return
+      const phone = window.matchMedia("(max-width: 1023px)").matches;
       const map = L.map(mapRef.current!, {
-        center: [19.02, 72.95],
-        zoom: 8,
+        center: [19.076, 72.877],
+        zoom: phone ? 10 : 7,
         zoomControl: true,
         attributionControl: false,
         scrollWheelZoom: true,

@@ -25,7 +25,8 @@ export default function ProjectFlex() {
   const items = projects.length ? projects.slice(0, 6) : Array.from({ length: 4 }, (_, i) => ({ id: `blank-${i}`, title: '', description: '', category: '', githubUrl: '' } as any));
 
   return (
-    <div className="bento p-3 w-full h-full flex flex-col">
+    <div className="bento projectflex-wrap p-3 w-full h-full flex flex-col">
+      <style>{`.bento.projectflex-wrap{background:transparent;border-color:transparent;padding:0} @media (min-width:768px){.bento.projectflex-wrap{background:var(--card);border:1px solid color-mix(in srgb, var(--border) 45%, transparent);padding:12px}}`}</style>
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden>
         <defs>
           <filter id="px-soft" x="0" y="0" width="100%" height="100%">
@@ -37,8 +38,35 @@ export default function ProjectFlex() {
           </filter>
         </defs>
       </svg>
+      {/* phone: numbering-first rows, no covers — like the old accordion numerals */}
+      <div className="flex flex-col w-full gap-2.5 md:hidden">
+        {items.map((p, i) => {
+          const url = p.demoUrl && p.demoUrl !== "#terminal" ? p.demoUrl : p.githubUrl;
+          const num = String(i + 1).padStart(2, "0");
+          const blurb = BLURBS[p.id] ?? p.description ?? "Something cooking here — details soon.";
+          const live = Boolean(p.title);
+          return (
+            <div key={p.id} className="bento p-3.5 flex items-center gap-3.5 group cursor-pointer" onClick={() => { if (url) window.open(url, "_blank", "noreferrer"); }}>
+              <span aria-hidden className="font-mono select-none shrink-0" style={{ fontSize: "26px", lineHeight: 1, color: "color-mix(in srgb, var(--foreground) 28%, transparent)" }}>{num}</span>
+              <div className="flex-1 min-w-0 flex flex-col">
+                {live ? (
+                  <h3 className="text-[14px] font-bold leading-tight truncate" style={{ color: "var(--foreground)", fontFamily: "var(--font-title)" }}>{p.title}</h3>
+                ) : null}
+                <p className="text-[12.5px] leading-relaxed truncate" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>{blurb}</p>
+                <div className="flex items-center justify-between gap-3 mt-1.5">
+                  <span className="font-mono text-[10px] truncate" style={{ color: "var(--muted-foreground)", opacity: 0.7 }}>{p.category || "rigalis"}</span>
+                  <span className="flex shrink-0 items-center gap-1 text-[12px] font-medium" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>
+                    View Project
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" /></svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
       <div
-        className="flex flex-1 min-h-0 w-full gap-1.5 flex-col md:flex-row"
+        className="hidden md:flex flex-1 min-h-0 w-full gap-1.5 flex-col md:flex-row"
         onMouseLeave={() => setActive(0)}
       >
         {items.map((p, i) => {

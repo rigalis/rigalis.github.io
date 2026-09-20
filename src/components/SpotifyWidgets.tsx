@@ -73,8 +73,19 @@ export default function SpotifyWidgets({ spotifyUrl = "https://www.last.fm/user/
   const displayImage = track?.image || "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop&q=80"
   const displayUrl = track?.url || spotifyUrl
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const apply = () => setIsMobile(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, [])
+
   const content = (
     <>
+      {!isMobile && (
       <div className="w-full shrink-0 select-none overflow-hidden flex justify-center" style={{ borderRadius: "12px 12px 0 0", borderBottom: "1px solid var(--card-border)", background: "var(--card-inner)" }}>
         <div className="relative w-full overflow-hidden" style={{ aspectRatio: "560 / 356", maxWidth: "420px", boxShadow: "inset 0 0 22px rgba(90,140,255,0.18)" }}>
           <img src="/images/tape.webp" alt="cassette" className="absolute inset-0 w-full h-full object-cover tape-filter" draggable={false} style={{ borderRadius: "3px" }} />
@@ -89,8 +100,9 @@ export default function SpotifyWidgets({ spotifyUrl = "https://www.last.fm/user/
           </div>
         </div>
       </div>
+      )}
       <div className="flex gap-3 items-center p-4 pt-3.5 flex-1 min-h-0">
-        <img src={displayImage} alt="Album art" className="w-[56px] h-[56px] rounded-[6px] object-cover shrink-0" style={{ border: "1px solid var(--card-border)", boxShadow: "0 0 12px rgba(90,140,255,0.16)" }} />
+        <img src={displayImage} alt="Album art" className="w-[48px] h-[48px] rounded-[6px] object-cover shrink-0" style={{ border: "1px solid var(--card-border)", boxShadow: "0 0 12px rgba(90,140,255,0.16)" }} />
         <div className="flex-1 min-w-0 space-y-0.5">
           <div className="flex items-center gap-2">
             <p className="font-mono text-[10px] tracking-wide truncate" style={{ color: "var(--muted-foreground)" }}>{status}</p>

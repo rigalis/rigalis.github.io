@@ -2,9 +2,13 @@ import { useEffect, useState, useMemo } from "react";
 
 interface Day { date: string; count: number; }
 
-const NUM_WEEKS = 24;
-const CELL = 16;
-const GAP = 4;
+const NUM_WEEKS_DESKTOP = 24;
+const NUM_WEEKS_MOBILE = 40;
+const CELL_DESKTOP = 16;
+const GAP_DESKTOP = 4;
+// phone: minimal small cells, zoomed to fill width (~360px)
+const CELL_MOBILE = 7;
+const GAP_MOBILE = 2;
 
 type GitGraphProps = {
   profileUrl?: string
@@ -13,6 +17,24 @@ type GitGraphProps = {
 
 export default function GitGraph({ profileUrl = "https://github.com/rigalis", username = "rigalis" }: GitGraphProps) {
   const [realData, setRealData] = useState<Day[] | null>(null);
+  const [numWeeks, setNumWeeks] = useState<number>(NUM_WEEKS_DESKTOP);
+  const [cell, setCell] = useState<number>(CELL_DESKTOP);
+  const [gap, setGap] = useState<number>(GAP_DESKTOP);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const apply = () => {
+      const m = mq.matches;
+      setIsMobile(m);
+      setNumWeeks(m ? NUM_WEEKS_MOBILE : NUM_WEEKS_DESKTOP);
+      setCell(m ? CELL_MOBILE : CELL_DESKTOP);
+      setGap(m ? GAP_MOBILE : GAP_DESKTOP);
+    };
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -46,12 +68,12 @@ export default function GitGraph({ profileUrl = "https://github.com/rigalis", us
   const { weeks, monthLabels } = useMemo(() => {
     const today = new Date();
     const start = new Date(today);
-    start.setDate(today.getDate() - today.getDay() - (NUM_WEEKS - 1) * 7);
+    start.setDate(today.getDate() - today.getDay() - (numWeeks - 1) * 7);
 
     let all: (Day | null)[] = [];
     if (realData && realData.length) {
       const map = new Map(realData.map((d) => [d.date, d.count]));
-      for (let i = 0; i < NUM_WEEKS * 7; i++) {
+      for (let i = 0; i < numWeeks * 7; i++) {
         const d = new Date(start); d.setDate(start.getDate() + i);
         const key = d.toISOString().split("T")[0];
         if (d > today) all.push(null);
@@ -61,7 +83,7 @@ export default function GitGraph({ profileUrl = "https://github.com/rigalis", us
       // fallback mock
       let s = 1337;
       const rand = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
-      for (let i = 0; i < NUM_WEEKS * 7; i++) {
+      for (let i = 0; i < numWeeks * 7; i++) {
         const d = new Date(start); d.setDate(start.getDate() + i);
         if (d > today) { all.push(null); rand(); continue; }
         const luck = rand();
@@ -74,7 +96,7 @@ export default function GitGraph({ profileUrl = "https://github.com/rigalis", us
       }
     }
     const weeks: (Day | null)[][] = [];
-    for (let w = 0; w < NUM_WEEKS; w++) weeks.push(all.slice(w * 7, w * 7 + 7));
+    for (let w = 0; w < numWeeks; w++) weeks.push(all.slice(w * 7, w * 7 + 7));
     const monthLabels: { label: string; weekIdx: number }[] = [];
     let last = -1;
     weeks.forEach((week, wIdx) => {
@@ -87,7 +109,7 @@ export default function GitGraph({ profileUrl = "https://github.com/rigalis", us
       }
     });
     return { weeks, monthLabels };
-  }, [realData]);
+  }, [realData, numWeeks]);
 
   const bg = (c: number) => {
     const teal = "#239B8C";
@@ -98,36 +120,47 @@ export default function GitGraph({ profileUrl = "https://github.com/rigalis", us
     return `color-mix(in srgb, ${teal} 78%, var(--card-inner))`;
   };
 
+  const CELL = cell;
+  const GAP = gap;
+
   return (
-    <div className="bento px-5 pt-5 pb-3 h-full flex flex-col relative">
+    <div className={isMobile ? "w-full flex flex-col relative py-1" : "bento px-5 pt-5 pb-3 h-full flex flex-col relative"}>
       <div className="flex-1 flex items-center justify-center overflow-x-auto py-1">
         <div style={{ display: "inline-flex", flexDirection: "column", gap: GAP, minWidth: "max-content" }}>
           <div style={{ display: "flex", gap: GAP }}>
-            {weeks.map((_, wIdx) => {
-              const lbl = monthLabels.find((m) => m.weekIdx === wIdx);
-              return (
-                <div key={wIdx} style={{ width: CELL, fontSize: 9, lineHeight: "1", fontFamily: "var(--font-mono)", color: "var(--muted-foreground)", textAlign: "left", flexShrink: 0 }}>
-                  {lbl ? lbl.label : ""}
-                </div>
-              );
-            })}
+            {isMobile ? (
+              <div className="flex w-full justify-between text-[9px]" style={{ fontFamily: "var(--font-mono)", color: "var(--muted-foreground)", width: weeks.length * (CELL + GAP) - GAP }}>
+                {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((m) => (
+                  <span key={m}>{m}</span>
+                ))}
+              </div>
+            ) : (
+              weeks.map((_, wIdx) => {
+                const lbl = monthLabels.find((m) => m.weekIdx === wIdx);
+                return (
+                  <div key={wIdx} style={{ width: CELL, fontSize: 9, lineHeight: "1", fontFamily: "var(--font-mono)", color: "var(--muted-foreground)", textAlign: "left", flexShrink: 0 }}>
+                    {lbl ? lbl.label : ""}
+                  </div>
+                );
+              })
+            )}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: GAP }}>
             {[0, 1, 2, 3, 4, 5, 6].map((dow) => (
               <div key={dow} style={{ display: "flex", gap: GAP }}>
                 <div style={{ display: "flex", gap: GAP }}>
                   {weeks.map((week, wIdx) => {
-                    const cell = week[dow];
-                    if (cell === null) return <div key={wIdx} style={{ width: CELL, height: CELL, flexShrink: 0, background: "transparent" }} />;
+                    const d = week[dow];
+                    if (d === null) return <div key={wIdx} style={{ width: CELL, height: CELL, flexShrink: 0, background: "transparent" }} />;
                     return (
                       <div
                         key={wIdx}
-                        title={`${cell.count} · ${cell.date}`}
+                        title={`${d.count} · ${d.date}`}
                         style={{
                           width: CELL,
                           height: CELL,
                           flexShrink: 0,
-                          background: bg(cell.count),
+                          background: bg(d.count),
                           border: "none",
                           borderRadius: 2,
                           boxSizing: "border-box",
@@ -146,7 +179,7 @@ export default function GitGraph({ profileUrl = "https://github.com/rigalis", us
         <div className="flex items-center gap-1.5 text-[10px] font-mono" style={{ color: "var(--muted-foreground)" }}>
           <span>Less</span>
           {[0, 1, 2, 3, 4].map((c) => (
-            <span key={c} className="block rounded-[2px] shrink-0" style={{ width: 10, height: 10, background: bg(c), border: "none" }} />
+            <span key={c} className="block rounded-[2px] shrink-0" style={{ width: isMobile ? 8 : 10, height: isMobile ? 8 : 10, background: bg(c), border: "none" }} />
           ))}
           <span>More</span>
         </div>
