@@ -1,0 +1,31 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import BlogPostView from '@/components/BlogPostView.tsx'
+import { blogPosts } from '@/data/blog'
+
+export function getStaticPaths() {
+  return blogPosts.map((post) => ({ params: { slug: post.id } }))
+}
+
+const { slug } = Astro.params
+const post = blogPosts.find((p) => p.id === slug)
+if (!post) return Astro.redirect('/blog')
+
+const postUrl = new URL(`/blog/${post.id}/`, 'https://rigalis.me').toString()
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  description: post.description,
+  image: post.image ? [new URL(post.image, 'https://rigalis.me').toString()] : undefined,
+  author: { '@type': 'Person', name: 'Parth Patel', url: 'https://rigalis.me/about/' },
+  datePublished: new Date(post.date).toISOString(),
+  mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+  keywords: post.tags.join(', '),
+}).replace(/</g, '\\u003c')
+---
+
+<Layout title={post.title} description={post.description} image={post.image} type="article">
+  <script type="application/ld+json" set:html={jsonLd} />
+  <BlogPostView postId={post.id} backHref="/blog" client:load />
+</Layout>

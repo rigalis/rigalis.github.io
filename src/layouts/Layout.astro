@@ -8,12 +8,15 @@ import { SITE } from '@/consts'
 interface Props {
   title?: string
   description?: string
+  image?: string
+  type?: string
 }
 
-const { description } = Astro.props
-const pageTitle = 'Rigalis'
+const { description, title, image, type = 'website' } = Astro.props
+const pageTitle = title ? `${title} · Rigalis` : 'Rigalis'
 const pageDesc = description || SITE.description
 const canonical = new URL(Astro.url.pathname, SITE.href).toString()
+const ogImage = image ? new URL(image, SITE.href).toString() : undefined
 ---
 
 <!doctype html>
@@ -25,6 +28,15 @@ const canonical = new URL(Astro.url.pathname, SITE.href).toString()
     <meta name="author" content={SITE.author} />
     <title>{pageTitle}</title>
     <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDesc} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="Rigalis Blog" href="/rss.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

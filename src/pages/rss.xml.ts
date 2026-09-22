@@ -20,7 +20,7 @@ export async function GET(context: APIContext) {
         title: post.title,
         description: post.description,
         pubDate: new Date(post.date),
-        link: `/blog#${post.id}`,
+        link: `/blog/${post.id}`,
         ...(FULL_CONTENT_IDS.has(post.id)
           ? { content: xmlSafe(await marked.parse(post.content)) }
           : {}),

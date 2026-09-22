@@ -81,7 +81,7 @@ const latestPost = blogPosts[0]
           <h4 class="font-medium text-[13px] leading-snug" style="color: var(--foreground); font-family: var(--font-title);">{latestPost.title}</h4>
         </div>
         {/* Functional — opens that post on /blog via hash */}
-        <a href={`/blog#${latestPost.id}`} aria-label="Read post" class="absolute bottom-3 right-3 w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors z-10" style="background: color-mix(in srgb, var(--foreground) 82%, var(--background)); border: 1px solid color-mix(in srgb, var(--foreground) 82%, var(--background)); color: var(--background);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
+        <a href={`/blog/${latestPost.id}`} aria-label="Read post" class="absolute bottom-3 right-3 w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors z-10" style="background: color-mix(in srgb, var(--foreground) 82%, var(--background)); border: 1px solid color-mix(in srgb, var(--foreground) 82%, var(--background)); color: var(--background);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
       </div>
     </div>
 
