@@ -22,10 +22,10 @@ export default function SpotifyWidgets({ spotifyUrl = "https://www.last.fm/user/
   const [tick, setTick] = useState<number>(Date.now())
 
   const status = useMemo(() => {
-    if (!track) return "Last played — 2h ago"
+    if (!track) return "Last played - 2h ago"
     if (track.nowplaying) return "Now playing"
-    if (track.uts) return `Last played — ${formatAgo(track.uts, tick)}`
-    return "Last played — 2h ago"
+    if (track.uts) return `Last played - ${formatAgo(track.uts, tick)}`
+    return "Last played - 2h ago"
   }, [track, tick])
 
   useEffect(() => {
@@ -117,7 +117,7 @@ export default function SpotifyWidgets({ spotifyUrl = "https://www.last.fm/user/
   )
 
   return (
-    <a href={displayUrl} target="_blank" rel="noreferrer" aria-label="Open music — rigalis" className="bento h-full flex flex-col relative overflow-hidden block hover:opacity-[0.98] transition-opacity">
+    <a href={displayUrl} target="_blank" rel="noreferrer" aria-label="Open music - rigalis" className="bento h-full flex flex-col relative overflow-hidden block hover:opacity-[0.98] transition-opacity">
       {content}
     </a>
   )

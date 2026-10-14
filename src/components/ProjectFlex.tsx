@@ -38,12 +38,12 @@ export default function ProjectFlex() {
           </filter>
         </defs>
       </svg>
-      {/* phone: numbering-first rows, no covers — like the old accordion numerals */}
+      {/* phone: numbering-first rows, no covers - like the old accordion numerals */}
       <div className="flex flex-col w-full gap-2.5 md:hidden">
         {items.map((p, i) => {
           const url = p.demoUrl && p.demoUrl !== "#terminal" ? p.demoUrl : p.githubUrl;
           const num = String(i + 1).padStart(2, "0");
-          const blurb = BLURBS[p.id] ?? p.description ?? "Something cooking here — details soon.";
+          const blurb = BLURBS[p.id] ?? p.description ?? "Something cooking here, details soon.";
           const live = Boolean(p.title);
           return (
             <div key={p.id} className="bento p-3.5 flex items-center gap-3.5 group cursor-pointer" onClick={() => { if (url) window.open(url, "_blank", "noreferrer"); }}>

@@ -14,9 +14,9 @@ const latestPost = blogPosts[0]
 
 <Layout title="Home">
   <div id="home-stack" class="flex flex-col gap-[10px] animate-fade-in">
-    <h1 class="sr-only">Rigalis — Parth Patel, systems and security researcher</h1>
+    <h1 class="sr-only">Rigalis - Parth Patel, systems and security researcher</h1>
 
-    <!-- 1 · HERO — phone: empty gif banner, info stacked below, no overlap.
+    <!-- 1 · HERO - phone: empty gif banner, info stacked below, no overlap.
          Desktop: original overlay look untouched (md:absolute overlay). -->
     <section class="relative w-full overflow-hidden flex flex-col gap-[10px] md:justify-end md:min-h-[410px] md:p-5 md:gap-[10px] p-0" style="border: none; border-radius: 12px; overflow: hidden;" aria-label="Intro">
       <!-- gif banner: empty on phone -->
@@ -32,7 +32,7 @@ const latestPost = blogPosts[0]
         </div>
       </div>
 
-      <!-- 2 · INFO — phone: free-flowing text (no box); desktop: original glass overlay -->
+      <!-- 2 · INFO - phone: free-flowing text (no box); desktop: original glass overlay -->
       <div class="relative z-10 px-0 md:px-0 order-2">
         <style>.hero-intro{background:transparent !important;border-color:transparent !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;box-shadow:none !important;padding:6px 2px 2px !important;border-radius:0 !important} @media (min-width:768px){.hero-intro{background:rgba(16, 28, 24, 0.66) !important;backdrop-filter:blur(10px) saturate(1.15) !important;-webkit-backdrop-filter:blur(10px) saturate(1.15) !important;padding:1rem !important;border-radius:10px !important}}</style>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-[10px]">
@@ -49,11 +49,14 @@ const latestPost = blogPosts[0]
         </div>
       </div>
 
-      <!-- News — desktop only, exactly the original top-right pop -->
+      <!-- News - desktop only, exactly the original top-right pop -->
       <div class="hidden lg:block lg:absolute lg:top-5 lg:right-5 lg:w-[220px] z-20">
         <div class="bento p-3 flex flex-col relative overflow-hidden" style="background: rgba(16, 28, 24, 0.66); backdrop-filter: blur(10px) saturate(1.15); -webkit-backdrop-filter: blur(10px) saturate(1.15); isolation: isolate; transform: translateZ(0); box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,245,221,0.08);">
           <span class="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full z-20" style="background: var(--accent); border: 2px solid var(--background); box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 60%, transparent);" aria-hidden="true"></span>
           <div class="news-scroll relative z-10 space-y-2 font-sans text-[12.5px] leading-relaxed" style="font-family: var(--font-sans);">
+            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[B1TMIN3RS]</span> Indian Army Terrier Cyber Quest&apos;26 Finalist!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
+            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[AetherQuant]</span> NULL ORIGIN CTF&apos;26 3rd Place!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
+            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[B1TMIN3RS]</span> Kurukshetra CTF&apos;26 2nd Place!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
             <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[THEM?!]</span> 07CTF&apos;26 2nd Place [Human Div]!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Sep</span></div>
             <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[THEM?!]</span> Qualified for z0d1ak CTF finals!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Aug</span></div>
             <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[DJS ARYA]</span> AIR 1, Global Rank 10 @AAS International Cansat Competition</span></span><span style="color: var(--muted-foreground);" class="font-normal">Jul</span></div>
@@ -62,9 +65,9 @@ const latestPost = blogPosts[0]
       </div>
     </section>
 
-    <!-- Row 2 wrapper — contents on phone so github/blog can be ordered globally; grid on desktop -->
+    <!-- Row 2 wrapper - contents on phone so github/blog can be ordered globally; grid on desktop -->
     <div class="contents lg:grid lg:grid-cols-12 lg:gap-[10px] lg:items-stretch">
-      <!-- 6 · GITHUB — full-year tiny cells on phone, above projects -->
+      <!-- 6 · GITHUB - full-year tiny cells on phone, above projects -->
       <div class="order-6 lg:order-none lg:col-span-7 flex flex-col min-w-0">
         <p class="lg:hidden font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">GitHub Activity</p>
         <GitGraph client:visible />
@@ -80,18 +83,18 @@ const latestPost = blogPosts[0]
           <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">{latestPost.date}</div>
           <h4 class="font-medium text-[13px] leading-snug" style="color: var(--foreground); font-family: var(--font-title);">{latestPost.title}</h4>
         </div>
-        {/* Functional — opens that post on /blog via hash */}
+        {/* Functional - opens that post on /blog via hash */}
         <a href={`/blog/${latestPost.id}`} aria-label="Read post" class="absolute bottom-3 right-3 w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors z-10" style="background: color-mix(in srgb, var(--foreground) 82%, var(--background)); border: 1px solid color-mix(in srgb, var(--foreground) 82%, var(--background)); color: var(--background);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
       </div>
     </div>
 
-    <!-- 5 · EXPERIENCE — full track from about, mobile only -->
+    <!-- 5 · EXPERIENCE - full track from about, mobile only -->
     <section class="order-5 lg:hidden flex flex-col min-w-0" aria-label="Experience">
       <p class="lg:hidden font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">Experience</p>
       <div class="bento p-4 md:p-5 flex flex-col gap-4">
         <div class="relative pl-5 border-l space-y-1" style="border-color: var(--card-border);">
           <div class="absolute top-1 -left-[4.5px] w-2 h-2 rounded-full" style="background: color-mix(in srgb, var(--muted-foreground) 60%, transparent);"></div>
-          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">2025 — Present</div>
+          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">2025 - Present</div>
           <h3 class="font-bold text-[13.5px] md:text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">Open Source Contributor</h3>
           <p class="leading-relaxed font-sans text-[11.5px]" style="color: var(--muted-foreground);">Contributing to open-source systems, compilers and reverse-engineering tooling.</p>
           <div class="flex flex-wrap gap-1.5 pt-1">
@@ -102,21 +105,21 @@ const latestPost = blogPosts[0]
         </div>
         <div class="relative pl-5 border-l space-y-1" style="border-color: var(--card-border);">
           <div class="absolute top-1 -left-[4.5px] w-2 h-2 rounded-full" style="background: color-mix(in srgb, var(--muted-foreground) 60%, transparent);"></div>
-          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">2026 — Present</div>
+          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">2026 - Present</div>
           <h3 class="font-bold text-[13.5px] md:text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">Head of Research &amp; Development</h3>
           <div class="text-[12px] font-mono" style="color: var(--foreground);">DJS ARYA · DJSCE</div>
-          <p class="leading-relaxed font-sans text-[11.5px]" style="color: var(--muted-foreground);">Leading R&amp;D for ARYA, scoping systems and AI projects, mentoring teams, and building tooling around compilers, distributed execution, and security research.</p>
+          <p class="leading-relaxed font-sans text-[11.5px]" style="color: var(--muted-foreground);">Leading R&amp;D for ARYA&apos;s CanSat program, covering airframe mechanics, descent and recovery calculations, and avionics testing, with flight software, telemetry and ground station work supporting national and international competition flights.</p>
         </div>
         <div class="relative pl-5 border-l space-y-1" style="border-color: var(--card-border);">
           <div class="absolute top-1 -left-[4.5px] w-2 h-2 rounded-full" style="background: color-mix(in srgb, var(--muted-foreground) 60%, transparent);"></div>
-          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">2026 — Present</div>
+          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">2026 - Present</div>
           <h3 class="font-bold text-[13.5px] md:text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">CTF Player</h3>
           <div class="text-[12px] font-mono" style="color: var(--foreground);">THEM?!</div>
           <p class="leading-relaxed font-sans text-[11.5px]" style="color: var(--muted-foreground);">Competing in international CTFs. Focus on binary exploitation, reverse engineering, and custom VM / heap challenges.</p>
         </div>
         <div class="relative pl-5 border-l space-y-1" style="border-color: var(--card-border);">
           <div class="absolute top-1 -left-[4.5px] w-2 h-2 rounded-full" style="background: color-mix(in srgb, var(--muted-foreground) 60%, transparent);"></div>
-          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">June 2026 — Aug 2026</div>
+          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">June 2026 - Aug 2026</div>
           <h3 class="font-bold text-[13.5px] md:text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">IT/OT Integration &amp; Cybersecurity Intern</h3>
           <div class="text-[12px] font-mono" style="color: var(--foreground);">Jaajitech</div>
           <p class="leading-relaxed font-sans text-[11.5px]" style="color: var(--muted-foreground);">Conducted VAPT across an ICS/SCADA product suite, focused on the application layer, exposed services, and IT/OT integration points. Documented findings with remediation guidance for the engineering team.</p>
@@ -124,11 +127,11 @@ const latestPost = blogPosts[0]
       </div>
     </section>
 
-    <!-- Bottom wrapper — contents on phone for global ordering; grid on desktop -->
+    <!-- Bottom wrapper - contents on phone for global ordering; grid on desktop -->
     <div class="contents lg:grid lg:grid-cols-12 lg:gap-[10px] lg:items-start">
-      <!-- left col — contents on phone -->
+      <!-- left col - contents on phone -->
       <div class="contents lg:flex lg:flex-col lg:gap-[10px] lg:col-span-4 lg:row-span-2">
-        <!-- 10 · MAP — compact on phone -->
+        <!-- 10 · MAP - compact on phone -->
         <div class="order-10 lg:order-none h-[200px] lg:h-[437px]">
           <MapWidget client:visible />
         </div>
@@ -167,7 +170,10 @@ const latestPost = blogPosts[0]
           <p class="font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">Whats New?!</p>
           <div class="bento p-3 flex flex-col relative overflow-hidden" style="background: linear-gradient(180deg, color-mix(in srgb, var(--foreground) 7%, var(--card)), var(--card) 80%);">
             <NewsParticles client:load />
-            <div class="relative z-10 space-y-2 font-sans text-[12px] md:text-[12.5px] leading-relaxed" style="font-family: var(--font-sans);">
+            <div class="news-scroll relative z-10 space-y-2 font-sans text-[12px] md:text-[12.5px] leading-relaxed" style="font-family: var(--font-sans);">
+              <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[B1TMIN3RS]</span> Indian Army Terrier Cyber Quest&apos;26 Finalist!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
+              <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[AetherQuant]</span> NULL ORIGIN CTF&apos;26 3rd Place!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
+              <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[B1TMIN3RS]</span> Kurukshetra CTF&apos;26 2nd Place!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
               <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[THEM?!]</span> 07CTF&apos;26 2nd Place [Human Div]!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Sep</span></div>
               <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[THEM?!]</span> Qualified for z0d1ak CTF finals!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Aug</span></div>
               <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[DJS ARYA]</span> AIR 1, Global Rank 10 @AAS International Cansat Competition!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Jul</span></div>
@@ -175,20 +181,20 @@ const latestPost = blogPosts[0]
           </div>
         </div>
       </div>
-      <!-- 7 · PROJECTS — stacked rows on phone, accordion on desktop -->
+      <!-- 7 · PROJECTS - stacked rows on phone, accordion on desktop -->
       <div class="order-7 lg:order-none lg:col-span-8 flex flex-col min-w-0">
         <p class="lg:hidden font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">Projects</p>
         <div class="w-full flex flex-col lg:overflow-hidden h-auto lg:h-[288px]">
           <ProjectFlex client:visible />
         </div>
       </div>
-      <!-- Row 4 right — placeholder + Spotify (placeholder desktop only) -->
+      <!-- Row 4 right - placeholder + Spotify (placeholder desktop only) -->
       <div class="order-11 lg:order-none lg:col-span-4 hidden lg:flex flex-col">
         <div class="bento p-5 flex flex-col w-full items-center justify-center" style="height: 288px;">
           <span class="font-mono text-xs tracking-[0.2em]" style="color: var(--muted-foreground);">COMING SOON</span>
         </div>
       </div>
-      <!-- 9 · MUSIC — compact row on phone, full tape card on desktop -->
+      <!-- 9 · MUSIC - compact row on phone, full tape card on desktop -->
       <div class="order-9 lg:order-none lg:col-span-4 flex flex-col min-w-0">
         <p class="lg:hidden font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">Music</p>
         <div class="w-full flex flex-col overflow-hidden h-auto lg:h-[288px]">
@@ -197,7 +203,7 @@ const latestPost = blogPosts[0]
       </div>
     </div>
 
-    <!-- New bottom row — TechStack -->
+    <!-- New bottom row - TechStack -->
     <div class="order-12 grid grid-cols-1 gap-[10px] mt-0">
       <TechStack client:visible />
     </div>
@@ -209,9 +215,9 @@ const latestPost = blogPosts[0]
         // rows, hold ~3s, glide back. Window always fits exactly two full rows.
         function fit(el) {
           var kids = el.children;
-          if (!kids || kids.length < 2) return;
+          if (!kids || kids.length < 3) return;
           var gap = 8;
-          el.style.maxHeight = (kids[0].offsetHeight + kids[1].offsetHeight + gap) + "px";
+          el.style.maxHeight = (kids[0].offsetHeight + kids[1].offsetHeight + kids[2].offsetHeight + gap * 2) + "px";
         }
         function glide(el, to, dur) {
           var from = el.scrollTop;

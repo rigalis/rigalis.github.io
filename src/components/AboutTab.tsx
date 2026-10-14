@@ -28,7 +28,7 @@ export default function AboutTab() {
       year: "2026 - Present",
       title: "Head of Research & Development",
       association: "DJS ARYA · DJSCE",
-      description: "Leading R&D for ARYA, scoping systems and AI projects, mentoring teams, and building tooling around compilers, distributed execution, and security research."
+      description: "Leading R&D for ARYA's CanSat program, covering airframe mechanics, descent and recovery calculations, and avionics testing, with flight software, telemetry and ground station work supporting national and international competition flights."
     },
     {
       year: "2026 - Present",
@@ -69,7 +69,7 @@ export default function AboutTab() {
             I care about how low-level systems actually behave, compilers, allocators, runtimes, distributed execution, and then designing calm, modern interfaces over that mess. CTF is still a big part of my days (pwn / reverse), but I think of myself as a systems person who uses CTF to stay sharp.
           </p>
           <p>
-            At ARYA I lead R&D, helping scope projects, mentor teams, and turn messy system constraints into legible tooling.
+            At ARYA I lead R&D around the CanSat program, structures and mechanisms, test campaigns, and getting a payload competition-ready.
           </p>
         </div>
 

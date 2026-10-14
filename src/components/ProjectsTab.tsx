@@ -21,7 +21,7 @@ export default function ProjectsTab() {
     setExpandedProjectId(expandedProjectId === id ? null : id);
   };
 
-  // Color mapping for tags — muted to match home
+  // Color mapping for tags - muted to match home
   const getTagColor = (tag: string) => {
     return "bg-[var(--card-inner)] text-[var(--muted-foreground)] border border-[var(--card-border)]";
   };
