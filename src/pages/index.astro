@@ -237,15 +237,15 @@ const latestPost = blogPosts[0]
         function setup(el) {
           var atTop = true;
           fit(el);
-          // ~3s hold each end, ~1.4s slow glide between
+          // ~3s hold each end, ~2.2s slow glide between
           setInterval(function () {
             if (!document.contains(el)) return;
             fit(el);
             var max = el.scrollHeight - el.clientHeight;
             if (max <= 4) return;
-            glide(el, atTop ? max : 0, 1400);
+            glide(el, atTop ? max : 0, 2200);
             atTop = !atTop;
-          }, 4400);
+          }, 5200);
           window.addEventListener("resize", function () { fit(el); });
         }
         function init() {
