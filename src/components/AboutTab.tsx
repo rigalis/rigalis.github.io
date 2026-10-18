@@ -45,7 +45,7 @@ export default function AboutTab() {
     {
       year: "2025 - Present",
       title: "Open Source Contributor",
-      association: "@Layer5 · @LLVM · @Rizin",
+      association: "@Layer5 · @LLVM",
       description: "Contributing to open-source systems, compilers and reverse-engineering tooling."
     }
   ];

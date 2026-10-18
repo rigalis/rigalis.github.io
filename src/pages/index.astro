@@ -10,6 +10,16 @@ import NewsParticles from '@/components/NewsParticles.tsx'
 import { blogPosts } from '@/data/blog'
 
 const latestPost = blogPosts[0]
+
+const achievements = [
+  { month: 'Oct', team: 'B1TMIN3RS', title: "Indian Army Terrier Cyber Quest'26 Finalist!" },
+  { month: 'Oct', team: 'AetherQuant', title: "NULL ORIGIN CTF'26 3rd Place!" },
+  { month: 'Oct', team: 'B1TMIN3RS', title: "Kurukshetra CTF'26 2nd Place!" },
+  { month: 'Sep', team: 'THEM?!', title: "07CTF'26 2nd Place [Human Div]!" },
+  { month: 'Aug', team: 'THEM?!', title: 'Qualified for z0d1ak CTF finals!' },
+  { month: 'Jul', team: 'DJS ARYA', title: 'AIR 1, Global Rank 10 @AAS International Cansat Competition!' },
+]
+
 ---
 
 <Layout title="Home">
@@ -51,17 +61,14 @@ const latestPost = blogPosts[0]
 
       <!-- News - desktop only, exactly the original top-right pop -->
       <div class="hidden lg:block lg:absolute lg:top-5 lg:right-5 lg:w-[220px] z-20">
-        <div class="bento p-3 flex flex-col relative overflow-hidden" style="background: rgba(16, 28, 24, 0.66); backdrop-filter: blur(10px) saturate(1.15); -webkit-backdrop-filter: blur(10px) saturate(1.15); isolation: isolate; transform: translateZ(0); box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,245,221,0.08);">
+        <button type="button" data-achievements-open aria-haspopup="dialog" aria-controls="achievements-dialog" aria-label="Open all achievements" class="bento w-full text-left p-3 flex flex-col relative overflow-hidden cursor-pointer transition-colors" style="background: rgba(16, 28, 24, 0.66); backdrop-filter: blur(10px) saturate(1.15); -webkit-backdrop-filter: blur(10px) saturate(1.15); isolation: isolate; transform: translateZ(0); box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,245,221,0.08);">
           <span class="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full z-20" style="background: var(--accent); border: 2px solid var(--background); box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 60%, transparent);" aria-hidden="true"></span>
           <div class="news-scroll relative z-10 space-y-2 font-sans text-[12.5px] leading-relaxed" style="font-family: var(--font-sans);">
-            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[B1TMIN3RS]</span> Indian Army Terrier Cyber Quest&apos;26 Finalist!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
-            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[AetherQuant]</span> NULL ORIGIN CTF&apos;26 3rd Place!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
-            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[B1TMIN3RS]</span> Kurukshetra CTF&apos;26 2nd Place!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
-            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[THEM?!]</span> 07CTF&apos;26 2nd Place [Human Div]!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Sep</span></div>
-            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[THEM?!]</span> Qualified for z0d1ak CTF finals!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Aug</span></div>
-            <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[DJS ARYA]</span> AIR 1, Global Rank 10 @AAS International Cansat Competition</span></span><span style="color: var(--muted-foreground);" class="font-normal">Jul</span></div>
+            {achievements.map((achievement) => (
+              <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[{achievement.team}]</span> {achievement.title}</span></span><span style="color: var(--muted-foreground);" class="font-normal">{achievement.month}</span></div>
+            ))}
           </div>
-        </div>
+        </button>
       </div>
     </section>
 
@@ -100,7 +107,6 @@ const latestPost = blogPosts[0]
           <div class="flex flex-wrap gap-1.5 pt-1">
             <a href="https://github.com/layer5io" target="_blank" rel="noreferrer" class="px-2.5 py-1 rounded-full text-[11px] font-medium border transition-colors" style="border-color: var(--card-border); background: var(--card-inner); color: var(--foreground); font-family: var(--font-mono);">@Layer5</a>
             <a href="https://github.com/llvm" target="_blank" rel="noreferrer" class="px-2.5 py-1 rounded-full text-[11px] font-medium border transition-colors" style="border-color: var(--card-border); background: var(--card-inner); color: var(--foreground); font-family: var(--font-mono);">@LLVM</a>
-            <a href="https://github.com/rizinorg" target="_blank" rel="noreferrer" class="px-2.5 py-1 rounded-full text-[11px] font-medium border transition-colors" style="border-color: var(--card-border); background: var(--card-inner); color: var(--foreground); font-family: var(--font-mono);">@Rizin</a>
           </div>
         </div>
         <div class="relative pl-5 border-l space-y-1" style="border-color: var(--card-border);">
@@ -168,17 +174,14 @@ const latestPost = blogPosts[0]
         <!-- NEWS · below socials, mobile only -->
         <div class="order-4 lg:hidden">
           <p class="font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">Whats New?!</p>
-          <div class="bento p-3 flex flex-col relative overflow-hidden" style="background: linear-gradient(180deg, color-mix(in srgb, var(--foreground) 7%, var(--card)), var(--card) 80%);">
+          <button type="button" data-achievements-open aria-haspopup="dialog" aria-controls="achievements-dialog" aria-label="Open all achievements" class="bento w-full text-left p-3 flex flex-col relative overflow-hidden cursor-pointer" style="background: linear-gradient(180deg, color-mix(in srgb, var(--foreground) 7%, var(--card)), var(--card) 80%);">
             <NewsParticles client:load />
             <div class="news-scroll relative z-10 space-y-2 font-sans text-[12px] md:text-[12.5px] leading-relaxed" style="font-family: var(--font-sans);">
-              <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[B1TMIN3RS]</span> Indian Army Terrier Cyber Quest&apos;26 Finalist!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
-              <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[AetherQuant]</span> NULL ORIGIN CTF&apos;26 3rd Place!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
-              <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[B1TMIN3RS]</span> Kurukshetra CTF&apos;26 2nd Place!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Oct</span></div>
-              <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[THEM?!]</span> 07CTF&apos;26 2nd Place [Human Div]!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Sep</span></div>
-              <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[THEM?!]</span> Qualified for z0d1ak CTF finals!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Aug</span></div>
-              <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[DJS ARYA]</span> AIR 1, Global Rank 10 @AAS International Cansat Competition!</span></span><span style="color: var(--muted-foreground);" class="font-normal">Jul</span></div>
+              {achievements.map((achievement) => (
+                <div class="flex justify-between gap-2 font-medium" style="color: var(--foreground);"><span class="flex items-center gap-1.5"><span class="w-1 h-1 rounded-full shrink-0" style="background: var(--foreground);"></span><span><span class="font-mono" style="font-size: 10px; letter-spacing: 0.04em; color: var(--muted-foreground);">[{achievement.team}]</span> {achievement.title}</span></span><span style="color: var(--muted-foreground);" class="font-normal">{achievement.month}</span></div>
+              ))}
             </div>
-          </div>
+          </button>
         </div>
       </div>
       <!-- 7 · PROJECTS - stacked rows on phone, accordion on desktop -->
@@ -208,7 +211,51 @@ const latestPost = blogPosts[0]
       <TechStack client:visible />
     </div>
 
-    <style>.news-scroll{overflow:hidden;scrollbar-width:none}.news-scroll::-webkit-scrollbar{display:none}</style>
+    <dialog id="achievements-dialog" class="achievements-dialog p-0 w-[min(90vw,440px)]" aria-labelledby="achievements-title">
+      <section class="overflow-hidden rounded-[12px]" style="background: var(--card); color: var(--foreground);">
+        <header class="flex items-center justify-between gap-6 px-4 py-3 border-b" style="border-color: var(--card-border);">
+          <h2 id="achievements-title" class="text-[15px] font-medium" style="font-family: var(--font-title);">Achievements</h2>
+          <button type="button" data-achievements-close aria-label="Close achievements" class="w-6 h-6 shrink-0 grid place-items-center" style="color: var(--muted-foreground);">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+          </button>
+        </header>
+
+        <div class="achievement-archive max-h-[min(62vh,440px)] overflow-y-auto px-4">
+          {achievements.map((achievement) => (
+            <article class="flex gap-4 py-3 border-b last:border-b-0" style="border-color: var(--card-border);">
+              <time class="font-mono text-[10px] w-7 shrink-0 pt-0.5" style="color: var(--muted-foreground);">{achievement.month}</time>
+              <div class="min-w-0">
+                <p class="font-mono text-[10px] mb-0.5" style="color: var(--muted-foreground);">[{achievement.team}]</p>
+                <p class="text-[12.5px] leading-relaxed" style="font-family: var(--font-sans); color: var(--foreground);">{achievement.title}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </dialog>
+
+    <style>
+      .news-scroll{overflow:hidden;scrollbar-width:none}.news-scroll::-webkit-scrollbar{display:none}
+      .achievements-dialog{margin:auto;border:1px solid var(--card-border);border-radius:12px;background:var(--card);box-shadow:0 16px 48px rgba(0,0,0,.38);color:var(--foreground)}
+      .achievements-dialog::backdrop{background:rgba(4,6,5,.65)}
+      .achievement-archive{scrollbar-width:thin;scrollbar-color:var(--card-border) transparent;overscroll-behavior:contain}
+    </style>
+    <script is:inline>
+      (function () {
+        var dialog = document.getElementById('achievements-dialog');
+        if (!(dialog instanceof HTMLDialogElement)) return;
+        document.querySelectorAll('[data-achievements-open]').forEach(function (trigger) {
+          trigger.addEventListener('click', function () {
+            if (!dialog.open) dialog.showModal();
+          });
+        });
+        var close = dialog.querySelector('[data-achievements-close]');
+        if (close) close.addEventListener('click', function () { dialog.close(); });
+        dialog.addEventListener('click', function (event) {
+          if (event.target === dialog) dialog.close();
+        });
+      })();
+    </script>
     <script is:inline>
       (function () {
         // Ping-pong auto-scroll for news cards: hold ~3s, glide to the hidden
