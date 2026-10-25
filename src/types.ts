@@ -22,6 +22,11 @@ export interface Project {
   featured?: boolean
 }
 
+export interface ContributionDay {
+  date: string
+  count: number
+}
+
 export interface TerminalLine {
   text: string
   type: 'input' | 'output' | 'error' | 'system' | 'success'

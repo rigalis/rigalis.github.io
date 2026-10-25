@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-
-interface Day { date: string; count: number; }
+import type { ContributionDay } from "@/types";
 
 const NUM_WEEKS_DESKTOP = 24;
 const NUM_WEEKS_MOBILE = 40;
@@ -11,12 +10,12 @@ const CELL_MOBILE = 7;
 const GAP_MOBILE = 2;
 
 type GitGraphProps = {
+  /** Contribution calendar, generated at build time by scripts/fetch-github.mjs */
+  data?: ContributionDay[]
   profileUrl?: string
-  username?: string
 }
 
-export default function GitGraph({ profileUrl = "https://github.com/rigalis", username = "rigalis" }: GitGraphProps) {
-  const [realData, setRealData] = useState<Day[] | null>(null);
+export default function GitGraph({ data = [], profileUrl = "https://github.com/rigalis" }: GitGraphProps) {
   const [numWeeks, setNumWeeks] = useState<number>(NUM_WEEKS_DESKTOP);
   const [cell, setCell] = useState<number>(CELL_DESKTOP);
   const [gap, setGap] = useState<number>(GAP_DESKTOP);
@@ -36,80 +35,51 @@ export default function GitGraph({ profileUrl = "https://github.com/rigalis", us
     return () => mq.removeEventListener("change", apply);
   }, []);
 
-  useEffect(() => {
-    let cancelled = false;
-    // Try multiple public contribution APIs, fallback to mock if all fail
-    const apis = [
-      `https://github-contributions-api.jogruber.de/v4/${username}?y=last`,
-      `https://gh-contributions-api.jogruber.de/v4/${username}?y=last`,
-      `https://github-contributions-api.deno.dev/${username}`,
-    ];
-    const tryFetch = async (url: string) => {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(String(res.status));
-      const json: any = await res.json();
-      // jogruber: { contributions: [{date, count, level}] }
-      // deno: { contributions: [{date, count}] } or { data: [...] }
-      const arr: any[] = json.contributions || json.data || json;
-      if (!Array.isArray(arr)) throw new Error("bad shape");
-      return arr.map((d: any) => ({ date: d.date, count: Math.min(4, d.count ?? d.contributionCount ?? 0) }));
-    };
-    (async () => {
-      for (const url of apis) {
-        try {
-          const data = await tryFetch(url);
-          if (!cancelled && data.length) { setRealData(data); return; }
-        } catch {}
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [username]);
+  const { weeks, monthLabels, total } = useMemo(() => {
+    // Build the calendar on UTC calendar dates so the keys line up exactly with
+    // the `YYYY-MM-DD` strings produced at build time, regardless of the
+    // visitor's timezone.
+    const DAY = 86_400_000;
+    const now = new Date();
+    const todayUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+    const dow = new Date(todayUTC).getUTCDay();
+    const startUTC = todayUTC - dow * DAY - (numWeeks - 1) * 7 * DAY;
 
-  const { weeks, monthLabels } = useMemo(() => {
-    const today = new Date();
-    const start = new Date(today);
-    start.setDate(today.getDate() - today.getDay() - (numWeeks - 1) * 7);
+    const map = new Map(data.map((d) => [d.date, d.count]));
+    const all: (ContributionDay | null)[] = [];
+    let sum = 0;
 
-    let all: (Day | null)[] = [];
-    if (realData && realData.length) {
-      const map = new Map(realData.map((d) => [d.date, d.count]));
-      for (let i = 0; i < numWeeks * 7; i++) {
-        const d = new Date(start); d.setDate(start.getDate() + i);
-        const key = d.toISOString().split("T")[0];
-        if (d > today) all.push(null);
-        else all.push({ date: key, count: map.get(key) ?? 0 });
+    for (let i = 0; i < numWeeks * 7; i++) {
+      const t = startUTC + i * DAY;
+      if (t > todayUTC) {
+        all.push(null);
+        continue;
       }
-    } else {
-      // fallback mock
-      let s = 1337;
-      const rand = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
-      for (let i = 0; i < numWeeks * 7; i++) {
-        const d = new Date(start); d.setDate(start.getDate() + i);
-        if (d > today) { all.push(null); rand(); continue; }
-        const luck = rand();
-        let count = 0;
-        if (luck > 0.86) count = 4;
-        else if (luck > 0.72) count = 3;
-        else if (luck > 0.52) count = 2;
-        else if (luck > 0.28) count = 1;
-        all.push({ date: d.toISOString().split("T")[0], count });
-      }
+      const key = new Date(t).toISOString().slice(0, 10);
+      const count = map.get(key) ?? 0;
+      sum += count;
+      all.push({ date: key, count });
     }
-    const weeks: (Day | null)[][] = [];
+
+    const weeks: (ContributionDay | null)[][] = [];
     for (let w = 0; w < numWeeks; w++) weeks.push(all.slice(w * 7, w * 7 + 7));
+
+    const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const monthLabels: { label: string; weekIdx: number }[] = [];
     let last = -1;
     weeks.forEach((week, wIdx) => {
       const first = week.find((d) => d !== null);
       if (!first) return;
-      const m = new Date(first.date).getMonth();
+      // Parse the month straight from the date string — no Date/local-timezone round trip.
+      const m = Number(first.date.slice(5, 7)) - 1;
       if (m !== last) {
-        monthLabels.push({ label: new Date(first.date).toLocaleDateString("en-US", { month: "short" }), weekIdx: wIdx });
+        monthLabels.push({ label: MONTHS[m], weekIdx: wIdx });
         last = m;
       }
     });
-    return { weeks, monthLabels };
-  }, [realData, numWeeks]);
+
+    return { weeks, monthLabels, total: sum };
+  }, [data, numWeeks]);
 
   const bg = (c: number) => {
     const teal = "#239B8C";
@@ -124,7 +94,10 @@ export default function GitGraph({ profileUrl = "https://github.com/rigalis", us
   const GAP = gap;
 
   return (
-    <div className={isMobile ? "w-full flex flex-col relative py-1" : "bento px-5 pt-5 pb-3 h-full flex flex-col relative"}>
+    <div
+      className={isMobile ? "w-full flex flex-col relative py-1" : "bento px-5 pt-5 pb-3 h-full flex flex-col relative"}
+      title={`${total} contributions in the last ${numWeeks} weeks`}
+    >
       <div className="flex-1 flex items-center justify-center overflow-x-auto py-1">
         <div style={{ display: "inline-flex", flexDirection: "column", gap: GAP, minWidth: "max-content" }}>
           <div style={{ display: "flex", gap: GAP }}>

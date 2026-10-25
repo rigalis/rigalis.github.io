@@ -27,6 +27,11 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Fetch GitHub contribution data
+        env:
+          GH_STATS_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
+          GH_USERNAME: rigalis
+        run: node scripts/fetch-github.mjs
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
