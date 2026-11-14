@@ -32,8 +32,12 @@ export default function TechStack() {
   ]
 
   return (
-    <div className="bento p-6 flex flex-col gap-4" id="tech-stack-card">
-      <div className="flex flex-col gap-1">
+    <div className="flex flex-col" id="tech-stack-card">
+      <h2 className="lg:hidden text-[13px] font-medium mb-3" style={{ color: 'var(--foreground)', fontFamily: 'var(--font-sans)' }}>
+        Skills &amp; Stacks
+      </h2>
+      <div className="bento p-6 flex flex-col gap-4">
+      <div className="hidden lg:flex flex-col gap-1">
         <h3 className="font-semibold text-[18px] leading-none" style={{ color: 'var(--foreground)', fontFamily: 'var(--font-title)' }}>
           Skills & <span style={{ color: 'var(--muted-foreground)' }}>stacks.</span>
         </h3>
@@ -45,7 +49,7 @@ export default function TechStack() {
       <div className="flex flex-col gap-5">
         {groups.map((g) => (
           <div key={g.label} className="flex flex-col gap-2.5">
-            <span className="text-[10px] font-mono uppercase tracking-wider font-semibold" style={{ color: 'var(--muted-foreground)' }}>
+            <span className="text-[11px] font-medium" style={{ color: 'var(--muted-foreground)', fontFamily: 'var(--font-sans)' }}>
               {g.label}
             </span>
             <div className="flex flex-wrap gap-2">
@@ -74,6 +78,7 @@ export default function TechStack() {
             </div>
           </div>
         ))}
+      </div>
       </div>
     </div>
   )

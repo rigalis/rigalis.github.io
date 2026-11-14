@@ -37,7 +37,7 @@ const ogImage = image ? new URL(image, SITE.href).toString() : undefined
     <meta name="twitter:description" content={pageDesc} />
     {ogImage && <meta property="og:image" content={ogImage} />}
     {ogImage && <meta name="twitter:image" content={ogImage} />}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="https://github.com/rigalis.png?size=128" />
     <link rel="alternate" type="application/rss+xml" title="Rigalis Blog" href="/rss.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -80,6 +80,27 @@ const ogImage = image ? new URL(image, SITE.href).toString() : undefined
         var btn = document.getElementById('theme-toggle');
         if (btn) btn.addEventListener('click', window.__toggleTheme);
       });
+    </script>
+    <script is:inline>
+      (function () {
+        var originalTitle = document.title;
+        var away = false;
+        var restoreTimer;
+
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) {
+            away = true;
+            clearTimeout(restoreTimer);
+            document.title = 'come back :(';
+          } else if (away) {
+            away = false;
+            document.title = 'welcome back :)';
+            restoreTimer = setTimeout(function () {
+              document.title = originalTitle;
+            }, 3000);
+          }
+        });
+      })();
     </script>
     <script data-goatcounter="https://rigalis.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>

@@ -1,13 +1,13 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import type { ContributionDay } from "@/types";
 
 const NUM_WEEKS_DESKTOP = 24;
-const NUM_WEEKS_MOBILE = 40;
+const NUM_WEEKS_MOBILE = 52;
 const CELL_DESKTOP = 16;
 const GAP_DESKTOP = 4;
-// phone: minimal small cells, zoomed to fill width (~360px)
-const CELL_MOBILE = 7;
-const GAP_MOBILE = 2;
+// Keep phone cells legible and let the full-year graph scroll horizontally.
+const CELL_MOBILE = 10;
+const GAP_MOBILE = 3;
 
 type GitGraphProps = {
   /** Contribution calendar, generated at build time by scripts/fetch-github.mjs */
@@ -16,6 +16,7 @@ type GitGraphProps = {
 }
 
 export default function GitGraph({ data = [], profileUrl = "https://github.com/rigalis" }: GitGraphProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [numWeeks, setNumWeeks] = useState<number>(NUM_WEEKS_DESKTOP);
   const [cell, setCell] = useState<number>(CELL_DESKTOP);
   const [gap, setGap] = useState<number>(GAP_DESKTOP);
@@ -34,6 +35,11 @@ export default function GitGraph({ data = [], profileUrl = "https://github.com/r
     mq.addEventListener("change", apply);
     return () => mq.removeEventListener("change", apply);
   }, []);
+
+  useEffect(() => {
+    if (!isMobile || !scrollRef.current) return;
+    scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
+  }, [isMobile, numWeeks]);
 
   const { weeks, monthLabels, total } = useMemo(() => {
     // Build the calendar on UTC calendar dates so the keys line up exactly with
@@ -98,25 +104,17 @@ export default function GitGraph({ data = [], profileUrl = "https://github.com/r
       className={isMobile ? "w-full flex flex-col relative py-1" : "bento px-5 pt-5 pb-3 h-full flex flex-col relative"}
       title={`${total} contributions in the last ${numWeeks} weeks`}
     >
-      <div className="flex-1 flex items-center justify-center overflow-x-auto py-1">
+      <div ref={scrollRef} className={`flex-1 flex items-center overflow-x-auto py-1 ${isMobile ? "justify-start" : "justify-center"}`}>
         <div style={{ display: "inline-flex", flexDirection: "column", gap: GAP, minWidth: "max-content" }}>
           <div style={{ display: "flex", gap: GAP }}>
-            {isMobile ? (
-              <div className="flex w-full justify-between text-[9px]" style={{ fontFamily: "var(--font-mono)", color: "var(--muted-foreground)", width: weeks.length * (CELL + GAP) - GAP }}>
-                {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((m) => (
-                  <span key={m}>{m}</span>
-                ))}
-              </div>
-            ) : (
-              weeks.map((_, wIdx) => {
-                const lbl = monthLabels.find((m) => m.weekIdx === wIdx);
-                return (
-                  <div key={wIdx} style={{ width: CELL, fontSize: 9, lineHeight: "1", fontFamily: "var(--font-mono)", color: "var(--muted-foreground)", textAlign: "left", flexShrink: 0 }}>
-                    {lbl ? lbl.label : ""}
-                  </div>
-                );
-              })
-            )}
+            {weeks.map((_, wIdx) => {
+              const lbl = monthLabels.find((m) => m.weekIdx === wIdx);
+              return (
+                <div key={wIdx} style={{ width: CELL, fontSize: 9, lineHeight: "1", fontFamily: "var(--font-mono)", color: "var(--muted-foreground)", textAlign: "left", flexShrink: 0 }}>
+                  {lbl ? lbl.label : ""}
+                </div>
+              );
+            })}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: GAP }}>
             {[0, 1, 2, 3, 4, 5, 6].map((dow) => (

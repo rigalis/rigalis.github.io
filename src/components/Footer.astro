@@ -1,5 +1,5 @@
 ---
-import { SITE, SOCIAL_LINKS } from '@/consts'
+import { SOCIAL_LINKS } from '@/consts'
 ---
 
 <footer class="py-6 mt-auto" style="border-top: none; background: transparent;">
@@ -21,8 +21,27 @@ import { SITE, SOCIAL_LINKS } from '@/consts'
         ))
       }
     </div>
-    <p class="tracking-tight">
-      © {new Date().getFullYear()} {SITE.title}. Built with Astro.
-    </p>
+    <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+      <a
+        href="https://ring.seggs.lol/"
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label="Visit the Threadlocked webring"
+        title="Threadlocked webring"
+        class="block shrink-0 opacity-80 hover:opacity-100 transition-opacity"
+      >
+        <img
+          src="/images/threadlocked-badge.svg"
+          width="88"
+          height="31"
+          alt="Threadlocked webring"
+          class="block"
+          style="image-rendering: pixelated;"
+        />
+      </a>
+      <p class="tracking-tight">
+        © {new Date().getFullYear()} rigalis.me. Built with Astro.
+      </p>
+    </div>
   </div>
 </footer>

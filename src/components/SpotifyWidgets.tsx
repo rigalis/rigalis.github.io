@@ -73,19 +73,8 @@ export default function SpotifyWidgets({ spotifyUrl = "https://www.last.fm/user/
   const displayImage = track?.image || "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop&q=80"
   const displayUrl = track?.url || spotifyUrl
 
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1023px)");
-    const apply = () => setIsMobile(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, [])
-
   const content = (
     <>
-      {!isMobile && (
       <div className="w-full shrink-0 select-none overflow-hidden flex justify-center" style={{ borderRadius: "12px 12px 0 0", borderBottom: "1px solid var(--card-border)", background: "var(--card-inner)" }}>
         <div className="relative w-full overflow-hidden" style={{ aspectRatio: "560 / 356", maxWidth: "420px", boxShadow: "inset 0 0 22px rgba(90,140,255,0.18)" }}>
           <img src="/images/tape.webp" alt="cassette" className="absolute inset-0 w-full h-full object-cover tape-filter" draggable={false} style={{ borderRadius: "3px" }} />
@@ -100,7 +89,6 @@ export default function SpotifyWidgets({ spotifyUrl = "https://www.last.fm/user/
           </div>
         </div>
       </div>
-      )}
       <div className="flex gap-3 items-center p-4 pt-3.5 flex-1 min-h-0">
         <img src={displayImage} alt="Album art" className="w-[48px] h-[48px] rounded-[6px] object-cover shrink-0" style={{ border: "1px solid var(--card-border)", boxShadow: "0 0 12px rgba(90,140,255,0.16)" }} />
         <div className="flex-1 min-w-0 space-y-0.5">
@@ -117,8 +105,31 @@ export default function SpotifyWidgets({ spotifyUrl = "https://www.last.fm/user/
   )
 
   return (
-    <a href={displayUrl} target="_blank" rel="noreferrer" aria-label="Open music - rigalis" className="bento h-full flex flex-col relative overflow-hidden block hover:opacity-[0.98] transition-opacity">
-      {content}
-    </a>
+    <>
+      <a
+        href={displayUrl}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Open ${displayTitle} by ${displayArtist}`}
+        className="lg:hidden w-full h-[76px] flex items-stretch overflow-hidden transition-opacity hover:opacity-90"
+        style={{ background: "var(--card-inner)", border: "1px solid var(--card-border)", borderRadius: 8 }}
+      >
+        <img src={displayImage} alt="Album art" className="w-[76px] h-full object-cover shrink-0" />
+        <div className="flex-1 min-w-0 px-3 py-2.5 flex flex-col justify-center">
+          <p className="text-[10.5px] leading-none mb-1.5 truncate" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>{status}</p>
+          <p className="font-medium text-[13px] leading-tight truncate" style={{ color: "var(--foreground)", fontFamily: "var(--font-sans)" }}>{displayTitle}</p>
+          <p className="text-[11.5px] leading-tight mt-1 truncate" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-sans)" }}>{displayArtist}</p>
+        </div>
+        <div className="w-8 shrink-0 flex items-center justify-center gap-[2px]" aria-hidden="true">
+          <span className="music-bar h-2 w-[2px]" style={{ background: "var(--muted-foreground)" }} />
+          <span className="music-bar music-bar-delay h-3 w-[2px]" style={{ background: "var(--muted-foreground)" }} />
+          <span className="music-bar h-1.5 w-[2px]" style={{ background: "var(--muted-foreground)" }} />
+        </div>
+      </a>
+      <a href={displayUrl} target="_blank" rel="noreferrer" aria-label="Open music - rigalis" className="hidden lg:flex bento h-full flex-col relative overflow-hidden hover:opacity-[0.98] transition-opacity">
+        {content}
+      </a>
+      <style>{'@keyframes music-bar{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}} .music-bar{transform-origin:center;animation:music-bar 1.8s ease-in-out infinite;opacity:.72}.music-bar-delay{animation-delay:.35s}'}</style>
+    </>
   )
 }

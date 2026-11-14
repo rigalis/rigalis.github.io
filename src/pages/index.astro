@@ -21,6 +21,24 @@ const achievements = [
   { month: 'Jul', team: 'DJS ARYA', title: 'AIR 1, Global Rank 10 @AAS International Cansat Competition!' },
 ]
 
+const mergedPullRequests = [
+  {
+    repo: 'llvm/llvm-project',
+    title: '[libc] Make ldexpf128/scalbnf128/scalblnf128 use emulated Float128',
+    url: 'https://github.com/llvm/llvm-project/pull/220295',
+  },
+  {
+    repo: 'layer5io/layer5',
+    title: 'Add news article for CNCF AI standardization at KubeCon 2025',
+    url: 'https://github.com/layer5io/layer5/pull/7145',
+  },
+  {
+    repo: 'layer5io/exoscale-academy',
+    title: 'Add design embed for Kubernetes workshop',
+    url: 'https://github.com/layer5io/exoscale-academy/pull/150',
+  },
+]
+
 ---
 
 <Layout title="Home">
@@ -77,12 +95,13 @@ const achievements = [
     <div class="contents lg:grid lg:grid-cols-12 lg:gap-[10px] lg:items-stretch">
       <!-- 6 · GITHUB - full-year tiny cells on phone, above projects -->
       <div class="order-6 lg:order-none lg:col-span-7 flex flex-col min-w-0">
-        <p class="lg:hidden font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">GitHub Activity</p>
+        <h2 class="lg:hidden text-[13px] font-medium mb-3" style="color: var(--foreground); font-family: var(--font-sans);">GitHub Activity</h2>
         <GitGraph data={githubData.contributions} client:visible />
       </div>
       <!-- 8 · BLOG -->
-      <div class="order-8 lg:order-none bento lg:col-span-5 px-5 pt-5 pb-3 flex flex-col group overflow-hidden relative" style="min-height: 242px;">
-        <p class="lg:hidden font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">Blogs</p>
+      <div class="order-9 lg:order-none lg:col-span-5 flex flex-col group min-w-0">
+        <h2 class="lg:hidden text-[13px] font-medium mb-3" style="color: var(--foreground); font-family: var(--font-sans);">Blogs</h2>
+        <div class="bento px-5 pt-5 pb-3 flex flex-col overflow-hidden relative lg:h-full" style="min-height: 242px;">
         <div class="w-full aspect-[200/96] rounded-[10px] overflow-hidden relative shrink-0" style="border: 1px solid var(--card-border); background: var(--card-inner);">
           <img src={latestPost.image || "/images/pixel-clouds-blog.jpg"} alt={latestPost.title} class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" style="object-position: center 28%;" />
           <div class="absolute top-0 left-0 px-2.5 py-1 rounded-tl-[10px] rounded-br-[8px] flex items-center gap-1.5" style="background: var(--foreground); color: var(--background); font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; line-height: 1;"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true" class="shrink-0" style="display: block; transform: translateY(0.2px);"><path d="M12 2l2.4 7.2H22l-6.2 4.5 2.4 7.3L12 16.9l-6.2 4.1 2.4-7.3L2 9.2h7.6z"/></svg><span style="line-height: 1; display: inline-block; transform: translateY(0.8px);">Latest Blog</span></div>
@@ -93,44 +112,61 @@ const achievements = [
         </div>
         {/* Functional - opens that post on /blog via hash */}
         <a href={`/blog/${latestPost.id}`} aria-label="Read post" class="absolute bottom-3 right-3 w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors z-10" style="background: color-mix(in srgb, var(--foreground) 82%, var(--background)); border: 1px solid color-mix(in srgb, var(--foreground) 82%, var(--background)); color: var(--background);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
+        </div>
       </div>
     </div>
 
     <!-- 5 · EXPERIENCE - full track from about, mobile only -->
     <section class="order-5 lg:hidden flex flex-col min-w-0" aria-label="Experience">
-      <p class="lg:hidden font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">Experience</p>
-      <div class="bento p-4 md:p-5 flex flex-col gap-4">
-        <div class="relative pl-5 border-l space-y-1" style="border-color: var(--card-border);">
-          <div class="absolute top-1 -left-[4.5px] w-2 h-2 rounded-full" style="background: color-mix(in srgb, var(--muted-foreground) 60%, transparent);"></div>
-          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">2025 - Present</div>
-          <h3 class="font-bold text-[13.5px] md:text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">Open Source Contributor</h3>
-          <p class="leading-relaxed font-sans text-[11.5px]" style="color: var(--muted-foreground);">Contributing to open-source systems, compilers and reverse-engineering tooling.</p>
-          <div class="flex flex-wrap gap-1.5 pt-1">
-            <a href="https://github.com/layer5io" target="_blank" rel="noreferrer" class="px-2.5 py-1 rounded-full text-[11px] font-medium border transition-colors" style="border-color: var(--card-border); background: var(--card-inner); color: var(--foreground); font-family: var(--font-mono);">@Layer5</a>
-            <a href="https://github.com/llvm" target="_blank" rel="noreferrer" class="px-2.5 py-1 rounded-full text-[11px] font-medium border transition-colors" style="border-color: var(--card-border); background: var(--card-inner); color: var(--foreground); font-family: var(--font-mono);">@LLVM</a>
+      <h2 class="lg:hidden text-[13px] font-medium mb-3" style="color: var(--foreground); font-family: var(--font-sans);">Experience</h2>
+      <div class="bento px-4 md:px-5">
+        <article class="py-4 border-b" style="border-color: var(--card-border);">
+          <div class="flex items-start gap-3 min-w-0">
+              <div class="flex -space-x-2 shrink-0" aria-hidden="true">
+                <img src="https://github.com/layer5io.png?size=80" alt="" class="w-9 h-9 rounded-[8px] object-cover" />
+                <img src="https://github.com/llvm.png?size=80" alt="" class="w-9 h-9 rounded-[8px] object-cover" />
+              </div>
+              <div class="min-w-0">
+                <h3 class="font-semibold text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);"><a href="https://github.com/layer5io" target="_blank" rel="noreferrer" class="hover:opacity-70">Layer5</a> · <a href="https://github.com/llvm" target="_blank" rel="noreferrer" class="hover:opacity-70">LLVM</a></h3>
+                <p class="font-sans text-[12.5px] mt-1" style="color: var(--muted-foreground);">Open Source Contributor</p>
+                <time class="block font-sans text-[11.5px] mt-1.5" style="color: var(--muted-foreground);">2025 — Present</time>
+              </div>
           </div>
-        </div>
-        <div class="relative pl-5 border-l space-y-1" style="border-color: var(--card-border);">
-          <div class="absolute top-1 -left-[4.5px] w-2 h-2 rounded-full" style="background: color-mix(in srgb, var(--muted-foreground) 60%, transparent);"></div>
-          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">2026 - Present</div>
-          <h3 class="font-bold text-[13.5px] md:text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">Head of Research &amp; Development</h3>
-          <div class="text-[12px] font-mono" style="color: var(--foreground);">DJS ARYA · DJSCE</div>
-          <p class="leading-relaxed font-sans text-[11.5px]" style="color: var(--muted-foreground);">Leading R&amp;D for ARYA&apos;s CanSat program, covering airframe mechanics, descent and recovery calculations, and avionics testing, with flight software, telemetry and ground station work supporting national and international competition flights.</p>
-        </div>
-        <div class="relative pl-5 border-l space-y-1" style="border-color: var(--card-border);">
-          <div class="absolute top-1 -left-[4.5px] w-2 h-2 rounded-full" style="background: color-mix(in srgb, var(--muted-foreground) 60%, transparent);"></div>
-          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">2026 - Present</div>
-          <h3 class="font-bold text-[13.5px] md:text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">CTF Player</h3>
-          <div class="text-[12px] font-mono" style="color: var(--foreground);">THEM?!</div>
-          <p class="leading-relaxed font-sans text-[11.5px]" style="color: var(--muted-foreground);">Competing in international CTFs. Focus on binary exploitation, reverse engineering, and custom VM / heap challenges.</p>
-        </div>
-        <div class="relative pl-5 border-l space-y-1" style="border-color: var(--card-border);">
-          <div class="absolute top-1 -left-[4.5px] w-2 h-2 rounded-full" style="background: color-mix(in srgb, var(--muted-foreground) 60%, transparent);"></div>
-          <div class="font-mono text-[10px]" style="color: var(--muted-foreground);">June 2026 - Aug 2026</div>
-          <h3 class="font-bold text-[13.5px] md:text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">IT/OT Integration &amp; Cybersecurity Intern</h3>
-          <div class="text-[12px] font-mono" style="color: var(--foreground);">Jaajitech</div>
-          <p class="leading-relaxed font-sans text-[11.5px]" style="color: var(--muted-foreground);">Conducted VAPT across an ICS/SCADA product suite, focused on the application layer, exposed services, and IT/OT integration points. Documented findings with remediation guidance for the engineering team.</p>
-        </div>
+          <p class="mt-2.5 leading-relaxed font-sans text-[12px]" style="color: var(--muted-foreground);">Systems, compiler, and reverse-engineering contributions across LLVM and Layer5.</p>
+        </article>
+        <article class="py-4 border-b" style="border-color: var(--card-border);">
+          <div class="flex items-start gap-3 min-w-0">
+              <img src="https://djs-arya-website.onrender.com/assets/Logo-D0NnsCgt.png" alt="DJS ARYA" class="w-9 h-9 shrink-0 rounded-[8px] object-contain" loading="lazy" />
+              <div class="min-w-0">
+                <h3 class="font-semibold text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">DJS ARYA · DJSCE</h3>
+                <p class="font-sans text-[12.5px] mt-1" style="color: var(--muted-foreground);">Head of Research &amp; Development</p>
+                <time class="block font-sans text-[11.5px] mt-1.5" style="color: var(--muted-foreground);">2026 — Present</time>
+              </div>
+          </div>
+          <p class="mt-2.5 leading-relaxed font-sans text-[12px]" style="color: var(--muted-foreground);">Building ARYA&apos;s CanSat systems across airframe, recovery, avionics, telemetry, and ground software.</p>
+        </article>
+        <article class="py-4 border-b" style="border-color: var(--card-border);">
+          <div class="flex items-start gap-3 min-w-0">
+              <img src="https://www.google.com/s2/favicons?domain=themctf.com&amp;sz=128" alt="THEM?!" class="w-9 h-9 shrink-0 rounded-[8px] object-cover" loading="lazy" />
+              <div class="min-w-0">
+                <h3 class="font-semibold text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">THEM?!</h3>
+                <p class="font-sans text-[12.5px] mt-1" style="color: var(--muted-foreground);">CTF Player</p>
+                <time class="block font-sans text-[11.5px] mt-1.5" style="color: var(--muted-foreground);">2026 — Present</time>
+              </div>
+          </div>
+          <p class="mt-2.5 leading-relaxed font-sans text-[12px]" style="color: var(--muted-foreground);">Competing internationally in pwn and reverse engineering, especially custom VMs and heap challenges.</p>
+        </article>
+        <article class="py-4">
+          <div class="flex items-start gap-3 min-w-0">
+              <img src="https://www.google.com/s2/favicons?domain=jaajitech.com&amp;sz=128" alt="Jaajitech" class="w-9 h-9 shrink-0 rounded-[8px] object-cover" loading="lazy" />
+              <div class="min-w-0">
+                <h3 class="font-semibold text-[14px] leading-tight" style="color: var(--foreground); font-family: var(--font-sans);">Jaajitech</h3>
+                <p class="font-sans text-[12.5px] mt-1" style="color: var(--muted-foreground);">IT/OT Integration &amp; Cybersecurity Intern</p>
+                <time class="block font-sans text-[11.5px] mt-1.5" style="color: var(--muted-foreground);">June 2026 — August 2026</time>
+              </div>
+          </div>
+          <p class="mt-2.5 leading-relaxed font-sans text-[12px]" style="color: var(--muted-foreground);">Tested an ICS/SCADA product suite across application, service, and IT/OT boundaries, then documented fixes with engineering.</p>
+        </article>
       </div>
     </section>
 
@@ -139,14 +175,14 @@ const achievements = [
       <!-- left col - contents on phone -->
       <div class="contents lg:flex lg:flex-col lg:gap-[10px] lg:col-span-4 lg:row-span-2">
         <!-- 10 · MAP - compact on phone -->
-        <div class="order-10 lg:order-none h-[200px] lg:h-[437px]">
+        <div class="order-11 lg:order-none h-[200px] lg:h-[437px]">
           <MapWidget client:visible />
         </div>
         <!-- 3 · SOCIALS -->
         <div class="order-3 lg:order-none">
           <!-- phone: minimal pill row, keeps bento style -->
           <div class="lg:hidden">
-            <h2 class="text-[13px] mb-2" style="color: var(--muted-foreground); font-family: var(--font-sans);">Here are my <span class="font-medium" style="color: var(--foreground);">socials</span></h2>
+            <h2 class="text-[13px] mb-3" style="color: var(--muted-foreground); font-family: var(--font-sans);">Here are my <span class="font-medium" style="color: var(--foreground);">socials</span></h2>
             <div class="flex flex-wrap gap-1.5">
               <a href="https://github.com/rigalis" target="_blank" rel="noreferrer" class="bento px-3 py-1.5 flex items-center gap-1.5 text-[12px] font-medium transition-colors" style="color: var(--foreground); font-family: var(--font-sans); border-radius: 999px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.52 11.52 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
@@ -174,7 +210,7 @@ const achievements = [
         </div>
         <!-- NEWS · below socials, mobile only -->
         <div class="order-4 lg:hidden">
-          <p class="font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">Whats New?!</p>
+          <h2 class="text-[13px] font-medium mb-3" style="color: var(--foreground); font-family: var(--font-sans);">What&apos;s New?!</h2>
           <button type="button" data-achievements-open aria-haspopup="dialog" aria-controls="achievements-dialog" aria-label="Open all achievements" class="bento w-full text-left p-3 flex flex-col relative overflow-hidden cursor-pointer" style="background: linear-gradient(180deg, color-mix(in srgb, var(--foreground) 7%, var(--card)), var(--card) 80%);">
             <NewsParticles client:load />
             <div class="news-scroll relative z-10 space-y-2 font-sans text-[12px] md:text-[12.5px] leading-relaxed" style="font-family: var(--font-sans);">
@@ -186,21 +222,65 @@ const achievements = [
         </div>
       </div>
       <!-- 7 · PROJECTS - stacked rows on phone, accordion on desktop -->
-      <div class="order-7 lg:order-none lg:col-span-8 flex flex-col min-w-0">
-        <p class="lg:hidden font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">Projects</p>
+      <div class="order-8 lg:order-none lg:col-span-8 flex flex-col min-w-0">
+        <h2 class="lg:hidden text-[13px] font-medium mb-3" style="color: var(--foreground); font-family: var(--font-sans);">Projects</h2>
         <div class="w-full flex flex-col lg:overflow-hidden h-auto lg:h-[288px]">
           <ProjectFlex client:visible />
         </div>
       </div>
-      <!-- Row 4 right - placeholder + Spotify (placeholder desktop only) -->
-      <div class="order-11 lg:order-none lg:col-span-4 hidden lg:flex flex-col">
-        <div class="bento p-5 flex flex-col w-full items-center justify-center" style="height: 288px;">
-          <span class="font-mono text-xs tracking-[0.2em]" style="color: var(--muted-foreground);">COMING SOON</span>
+      <!-- Row 4 right - merged PR log + Spotify -->
+      <div class="order-7 lg:order-none lg:col-span-4 flex flex-col">
+        <h2 class="lg:hidden text-[13px] font-medium mb-3" style="color: var(--foreground); font-family: var(--font-sans);">Open Source Contributions</h2>
+        <div class="bento p-4 flex flex-col w-full h-[288px]">
+          <div class="flex flex-col items-start lg:flex-row lg:items-center lg:justify-between gap-2.5 lg:gap-3 mb-3 lg:mb-2.5">
+            <h3 class="hidden lg:block text-[13px] font-medium leading-none shrink-0" style="color: var(--foreground); font-family: var(--font-title);">Contributions</h3>
+            <div class="pr-log-tabs flex items-center p-0.5 rounded-[7px] border" style="border-color: var(--card-border);" role="tablist" aria-label="Pull request status">
+              <button type="button" id="pr-tab-merged" class="pr-log-tab flex items-center gap-1.5 lg:gap-1 px-2.5 lg:px-1.5 py-1.5 lg:py-1 rounded-[5px] font-mono text-[10.5px] lg:text-[8.5px]" data-pr-tab="merged" role="tab" aria-selected="true" aria-controls="pr-panel-merged">
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0 0 .005V3.25Z"/></svg>
+                Merged
+              </button>
+              <button type="button" id="pr-tab-open" class="pr-log-tab flex items-center gap-1.5 lg:gap-1 px-2.5 lg:px-1.5 py-1.5 lg:py-1 rounded-[5px] font-mono text-[10.5px] lg:text-[8.5px]" data-pr-tab="open" role="tab" aria-selected="false" aria-controls="pr-panel-open" tabindex="-1">
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"/></svg>
+                Open
+              </button>
+            </div>
+          </div>
+          <div id="pr-panel-merged" class="pr-log-list flex-1 min-h-0 overflow-y-scroll flex flex-col pr-1" data-pr-panel="merged" role="tabpanel" aria-labelledby="pr-tab-merged">
+            {mergedPullRequests.map((pullRequest) => (
+              <a
+                href={pullRequest.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                class="group shrink-0 min-h-[78px] lg:min-h-[74px] border-b last:border-b-0 px-1 py-3 flex items-center gap-2.5 transition-opacity hover:opacity-75"
+                style="border-color: var(--card-border);"
+                aria-label={`Open ${pullRequest.repo} contribution`}
+              >
+                <span class="w-[18px] h-[18px] grid place-items-center shrink-0" style="color: #a371f7;">
+                  <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0 0 .005V3.25Z"/></svg>
+                </span>
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center justify-between gap-2 font-mono text-[12px] lg:text-[11px] font-semibold leading-none mb-1.5" style="color: var(--foreground);">
+                    <span class="truncate">{pullRequest.repo}</span>
+                  </div>
+                  <p class="text-[12.5px] lg:text-[11.5px] leading-[1.35]" style="color: var(--muted-foreground); font-family: var(--font-sans); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{pullRequest.title}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+          <div id="pr-panel-open" class="hidden flex-1 min-h-0 place-items-center text-center px-6" data-pr-panel="open" role="tabpanel" aria-labelledby="pr-tab-open">
+            <div>
+              <span class="w-8 h-8 mx-auto mb-2 rounded-full grid place-items-center" style="color: #3fb950; background: color-mix(in srgb, #3fb950 10%, var(--card-inner));">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"/></svg>
+              </span>
+              <p class="text-[11.5px]" style="color: var(--foreground); font-family: var(--font-sans);">No open pull requests</p>
+              <p class="font-mono text-[8.5px] mt-1" style="color: var(--muted-foreground);">all caught up</p>
+            </div>
+          </div>
         </div>
       </div>
       <!-- 9 · MUSIC - compact row on phone, full tape card on desktop -->
-      <div class="order-9 lg:order-none lg:col-span-4 flex flex-col min-w-0">
-        <p class="lg:hidden font-mono text-[11px] mb-2 tracking-wide" style="color: var(--muted-foreground);">Music</p>
+      <div class="order-10 lg:order-none lg:col-span-4 flex flex-col min-w-0">
+        <h2 class="lg:hidden text-[13px] font-medium mb-3" style="color: var(--foreground); font-family: var(--font-sans);">Listening</h2>
         <div class="w-full flex flex-col overflow-hidden h-auto lg:h-[288px]">
           <SpotifyWidgets client:visible spotifyUrl="https://open.spotify.com/album/7DQCQeGbnpjr3tF7p3f2jA" />
         </div>
@@ -240,7 +320,35 @@ const achievements = [
       .achievements-dialog{margin:auto;border:1px solid var(--card-border);border-radius:12px;background:var(--card);box-shadow:0 16px 48px rgba(0,0,0,.38);color:var(--foreground)}
       .achievements-dialog::backdrop{background:rgba(4,6,5,.65)}
       .achievement-archive{scrollbar-width:thin;scrollbar-color:var(--card-border) transparent;overscroll-behavior:contain}
+      .pr-log-tab{color:var(--muted-foreground);transition:background .15s ease,color .15s ease}
+      .pr-log-tab[data-pr-tab="merged"][aria-selected="true"]{color:#a371f7;background:color-mix(in srgb,#a371f7 10%,var(--card-inner))}
+      .pr-log-tab[data-pr-tab="open"][aria-selected="true"]{color:#3fb950;background:color-mix(in srgb,#3fb950 10%,var(--card-inner))}
+      .pr-log-list{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--muted-foreground) 52%,transparent) color-mix(in srgb,var(--muted-foreground) 8%,transparent);scrollbar-gutter:stable;overscroll-behavior:contain}
+      .pr-log-list::-webkit-scrollbar{width:5px}
+      .pr-log-list::-webkit-scrollbar-track{background:color-mix(in srgb,var(--muted-foreground) 8%,transparent);border-radius:999px}
+      .pr-log-list::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted-foreground) 52%,transparent);border-radius:999px}
+      @media(min-width:1024px){.pr-log-list{scrollbar-color:color-mix(in srgb,var(--muted-foreground) 28%,transparent) transparent}.pr-log-list::-webkit-scrollbar{width:4px}.pr-log-list::-webkit-scrollbar-track{background:transparent}.pr-log-list::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted-foreground) 28%,transparent)}}
+      [data-pr-panel="open"]:not(.hidden){display:grid}
     </style>
+    <script is:inline>
+      (function () {
+        var tabs = Array.from(document.querySelectorAll('[data-pr-tab]'));
+        var panels = Array.from(document.querySelectorAll('[data-pr-panel]'));
+        tabs.forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            var selected = tab.getAttribute('data-pr-tab');
+            tabs.forEach(function (item) {
+              var active = item === tab;
+              item.setAttribute('aria-selected', active ? 'true' : 'false');
+              item.setAttribute('tabindex', active ? '0' : '-1');
+            });
+            panels.forEach(function (panel) {
+              panel.classList.toggle('hidden', panel.getAttribute('data-pr-panel') !== selected);
+            });
+          });
+        });
+      })();
+    </script>
     <script is:inline>
       (function () {
         var dialog = document.getElementById('achievements-dialog');
